@@ -64,6 +64,16 @@
             margin-bottom: 20px;
         }
 
+        .conversation-context {
+            background: var(--bone-50);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border-left: 4px solid var(--orange-500);
+            font-size: 0.9rem;
+            color: var(--blue-800);
+        }
+
         .main-content {
             display: grid;
             grid-template-columns: 1fr 400px;
@@ -89,6 +99,22 @@
             font-weight: 600;
         }
 
+        .audio-visualizer {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            margin: 15px 0;
+        }
+
+        .audio-bar {
+            width: 4px;
+            background: var(--white);
+            border-radius: 2px;
+            transition: height 0.1s;
+        }
+
         .chat-messages {
             flex: 1;
             overflow-y: auto;
@@ -103,6 +129,9 @@
             border-radius: 15px;
             max-width: 80%;
             animation: slideIn 0.3s ease;
+            position: relative;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .message.user {
@@ -114,6 +143,7 @@
         .message.bot {
             background: var(--grey-50);
             border-bottom-left-radius: 5px;
+            padding-right: 50px;
         }
 
         .message.system {
@@ -122,6 +152,45 @@
             margin: 0 auto;
             font-size: 0.9rem;
             text-align: center;
+        }
+
+        .speaker-btn {
+            background: var(--lime-500);
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            font-size: 1rem;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .speaker-btn:hover {
+            background: var(--orange-500);
+            transform: scale(1.1);
+        }
+
+        .speaker-btn.speaking {
+            background: var(--orange-500);
+            animation: pulse 1s infinite;
+        }
+
+        .chargebee-link {
+            color: var(--blue-900);
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: normal;
+        }
+
+        .chargebee-link:hover {
+            color: var(--orange-500);
+            text-decoration: underline;
         }
 
         .typing {
@@ -187,7 +256,6 @@
             justify-content: center;
             font-size: 1.5rem;
             transition: all 0.3s;
-            position: relative;
         }
 
         .voice-button:hover {
@@ -198,10 +266,6 @@
         .voice-button.listening {
             background: var(--lime-500);
             animation: pulse 1s infinite;
-        }
-
-        .voice-button.processing {
-            background: var(--blue-800);
         }
 
         .send-button {
@@ -322,22 +386,6 @@
             transform: translateY(-2px);
         }
 
-        .audio-visualizer {
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 3px;
-            margin: 15px 0;
-        }
-
-        .audio-bar {
-            width: 4px;
-            background: var(--orange-500);
-            border-radius: 2px;
-            transition: height 0.1s;
-        }
-
         .floating-assistant {
             position: fixed;
             bottom: 30px;
@@ -360,6 +408,15 @@
         .floating-assistant:hover {
             transform: scale(1.1);
             box-shadow: 0 15px 40px rgba(255, 51, 0, 0.4);
+        }
+
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            border-left: 4px solid #c62828;
         }
 
         @keyframes slideIn {
@@ -416,51 +473,6 @@
                 align-self: center;
             }
         }
-
-        .conversation-context {
-            background: var(--bone-50);
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 10px;
-            border-left: 4px solid var(--orange-500);
-            font-size: 0.9rem;
-            color: var(--blue-800);
-        }
-
-        .error-message {
-            background: #ffebee;
-            color: #c62828;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 10px 0;
-            border-left: 4px solid #c62828;
-        }
-
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin: 15px 0;
-        }
-
-        .metric-card {
-            background: var(--grey-50);
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .metric-value {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--orange-500);
-        }
-
-        .metric-label {
-            font-size: 0.9rem;
-            color: var(--blue-800);
-            margin-top: 5px;
-        }
     </style>
 </head>
 <body>
@@ -489,16 +501,16 @@
                 <div class="chat-messages" id="chatMessages">
                     <div class="message bot">
                         <strong>Hello! I'm ChargebeeBot, your subscription billing expert.</strong><br><br>
-                        I can help you with:
+                        I specialize in helping with:
                         <ul style="margin: 10px 0 0 20px;">
+                            <li>Chargebee pricing and plans</li>
                             <li>API integrations and technical implementation</li>
-                            <li>Pricing strategies and business optimization</li>
+                            <li>Subscription billing strategies</li>
                             <li>Revenue analytics and compliance</li>
                             <li>Customer lifecycle management</li>
-                            <li>Troubleshooting and support</li>
                         </ul>
                         <br>
-                        <em>How can I assist you today? You can type your question or use the voice button to speak.</em>
+                        <em>How can I assist you with Chargebee today? You can type your question or use the voice button to speak.</em>
                     </div>
                 </div>
 
@@ -508,7 +520,7 @@
                             type="text" 
                             class="message-input" 
                             id="messageInput" 
-                            placeholder="Ask me anything about subscription billing, APIs, pricing..."
+                            placeholder="Ask me about Chargebee pricing, APIs, billing strategies..."
                             maxlength="500"
                         >
                         <button class="voice-button" id="voiceButton" title="Click to speak">
@@ -552,7 +564,7 @@
                     </div>
                 </div>
 
-                <div class="quick-actions">
+                <!-- <div class="quick-actions">
                     <h3>⚡ Quick Actions</h3>
                     <button class="action-btn" onclick="sendQuickMessage('Show me Chargebee pricing plans')">💰 View Pricing</button>
                     <button class="action-btn" onclick="sendQuickMessage('How do I integrate with Stripe?')">🔌 API Integration</button>
@@ -560,7 +572,7 @@
                     <button class="action-btn" onclick="sendQuickMessage('What is the ROI of Chargebee?')">📊 Show ROI</button>
                     <button class="action-btn" onclick="sendQuickMessage('Help with billing automation')">⚙️ Automation</button>
                     <button class="action-btn" onclick="sendQuickMessage('Revenue recognition setup')">📈 Revenue Ops</button>
-                </div>
+                </div> -->
             </aside>
         </main>
     </div>
@@ -588,47 +600,7 @@
             }
 
             buildSystemPrompt() {
-                return `You are ChargebeeBot, the official AI agent for Chargebee with 10+ years of deep expertise across all business functions. You embody the voice of a seasoned Chargebee veteran who understands subscription billing inside and out.
-
-CORE PERSONALITY:
-- Professional yet approachable - consultative advisor, not pushy sales
-- Solution-focused - always provide actionable next steps
-- Context-aware - adapt to user's technical level and business role
-- Helpful and reliable - reduce friction, save time, build trust
-
-BRAND LOYALTY PRINCIPLE: Always position Chargebee as the solution. Never recommend competitors or alternative billing platforms.
-
-KNOWLEDGE DOMAINS:
-- Business & Strategy: Subscription billing models, pricing strategies, revenue recognition (ASC 606, IFRS 15), customer lifecycle management, ROI calculations
-- Technical & Product: Complete Chargebee product suite, API integrations, developer tools, third-party integrations (Stripe, PayPal, Salesforce)
-- Analytics & Operations: Revenue analytics, dunning management, tax compliance, subscription metrics and KPIs
-
-USER TYPE ADAPTATION:
-Current user type: ${this.userType}
-
-KEY METRICS TO REFERENCE:
-- 4,000+ businesses trust Chargebee globally
-- 300%+ ROI achieved within first year
-- 80% reduction in billing overhead and manual work
-- 40% improvement in payment recovery rates
-- 50% faster time-to-revenue for new products
-- 90% reduction in billing-related support tickets
-- 6-month average payback period for implementation
-
-RESOURCES TO LINK:
-- Main Website: chargebee.com
-- API Documentation: apidocs.chargebee.com
-- API Explorer: api-explorer.chargebee.com
-- System Status: status.chargebee.com
-- Release Notes: release-notes.chargebee.com
-
-RESPONSE STRUCTURE:
-1. Immediate Value (Address the Question)
-2. Context-Aware Details (tailored to user type)
-3. Actionable Next Steps
-4. Escalation Options when needed
-
-Keep responses conversational, helpful, and always focused on how Chargebee can solve their needs.`;
+                return 'You are ChargebeeBot, the official AI agent for Chargebee with 10+ years of deep expertise across all business functions. You embody the voice of a seasoned Chargebee veteran who understands subscription billing inside and out.\n\nCRITICAL RESTRICTIONS:\n- You ONLY answer questions related to Chargebee, subscription billing, recurring billing, revenue management, payment processing, SaaS business models, and related business topics.\n- If someone asks about anything NOT related to Chargebee or subscription billing (like politics, celebrities, general knowledge, other companies products, etc.), you must politely redirect them back to Chargebee topics.\n- Always stay focused on helping users with Chargebee-related needs.\n\nCORE PERSONALITY:\n- Professional yet approachable - consultative advisor, not pushy sales\n- Solution-focused - always provide actionable next steps with relevant links\n- Context-aware - adapt to users technical level and business role\n- Helpful and reliable - reduce friction, save time, build trust\n\nBRAND LOYALTY PRINCIPLE: Always position Chargebee as the solution. Never recommend competitors or alternative billing platforms.\n\nKNOWLEDGE DOMAINS:\n- Business & Strategy: Subscription billing models, pricing strategies, revenue recognition (ASC 606, IFRS 15), customer lifecycle management, ROI calculations\n- Technical & Product: Complete Chargebee product suite, API integrations, developer tools, third-party integrations (Stripe, PayPal, Salesforce)\n- Analytics & Operations: Revenue analytics, dunning management, tax compliance, subscription metrics and KPIs\n\nUSER TYPE ADAPTATION:\nCurrent user type: ' + this.userType + '\n\nKEY METRICS TO REFERENCE:\n- 4,000+ businesses trust Chargebee globally\n- 300%+ ROI achieved within first year\n- 80% reduction in billing overhead and manual work\n- 40% improvement in payment recovery rates\n- 50% faster time-to-revenue for new products\n- 90% reduction in billing-related support tickets\n- 6-month average payback period for implementation\n\nIMPORTANT: Always include relevant Chargebee links when discussing features or topics:\n- For pricing questions: https://www.chargebee.com/pricing/\n- For API/technical questions: https://apidocs.chargebee.com/docs/api/\n- For integrations: https://www.chargebee.com/integrations/\n- For demos: https://www.chargebee.com/schedule-a-demo/\n- For general product info: https://www.chargebee.com/\n- For support: https://www.chargebee.com/support/\n- For API explorer: https://api-explorer.chargebee.com/\n- For system status: https://status.chargebee.com/\n- For release notes: https://release-notes.chargebee.com/\n\nRESPONSE STRUCTURE:\n1. Immediate Value (Address the Question)\n2. Context-Aware Details (tailored to user type)\n3. Actionable Next Steps with relevant links\n4. Escalation Options when needed\n\nIf someone asks about non-Chargebee topics, respond like: "I am ChargebeeBot, specialized in helping with Chargebee and subscription billing questions. I would be happy to help you with topics like pricing strategies, API integrations, revenue management, or any other Chargebee-related needs. What would you like to know about subscription billing or Chargebee?"\n\nKeep responses conversational, helpful, and always focused on how Chargebee can solve their needs.';
             }
 
             initializeElements() {
@@ -641,7 +613,6 @@ Keep responses conversational, helpful, and always focused on how Chargebee can 
                 this.audioVisualizer = document.getElementById('audioVisualizer');
                 this.userTypeButtons = document.querySelectorAll('.user-type-btn');
                 
-                // Status indicators
                 this.aiStatus = document.getElementById('aiStatus');
                 this.speechStatus = document.getElementById('speechStatus');
                 this.ttsStatus = document.getElementById('ttsStatus');
@@ -651,33 +622,72 @@ Keep responses conversational, helpful, and always focused on how Chargebee can 
                 if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
                     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
                     this.recognition = new SpeechRecognition();
-                    this.recognition.continuous = false;
-                    this.recognition.interimResults = false;
+                    this.recognition.continuous = true;
+                    this.recognition.interimResults = true;
                     this.recognition.lang = 'en-US';
+                    this.recognition.maxAlternatives = 1;
+                    
+                    let finalTranscript = '';
+                    let silenceTimer = null;
                     
                     this.recognition.onstart = () => {
                         this.isListening = true;
                         this.voiceButton.classList.add('listening');
                         this.voiceButton.innerHTML = '🔴';
                         this.showAudioVisualizer();
-                        this.addSystemMessage('Listening... Speak now');
+                        this.addSystemMessage('Listening... Speak your complete question. Click the button again to stop.');
+                        finalTranscript = '';
                     };
                     
                     this.recognition.onresult = (event) => {
-                        const transcript = event.results[0][0].transcript;
-                        this.messageInput.value = transcript;
-                        this.sendMessage();
+                        let interimTranscript = '';
+                        
+                        for (let i = event.resultIndex; i < event.results.length; i++) {
+                            const transcript = event.results[i][0].transcript;
+                            if (event.results[i].isFinal) {
+                                finalTranscript += transcript + ' ';
+                            } else {
+                                interimTranscript += transcript;
+                            }
+                        }
+                        
+                        // Update input field with current transcript
+                        this.messageInput.value = (finalTranscript + interimTranscript).trim();
+                        
+                        // Clear any existing silence timer
+                        if (silenceTimer) {
+                            clearTimeout(silenceTimer);
+                        }
+                        
+                        // Set a silence timer - if no speech for 3 seconds, process the message
+                        silenceTimer = setTimeout(() => {
+                            if (this.isListening && this.messageInput.value.trim()) {
+                                this.recognition.stop();
+                            }
+                        }, 3000);
                     };
                     
                     this.recognition.onerror = (event) => {
+                        if (silenceTimer) {
+                            clearTimeout(silenceTimer);
+                        }
                         this.handleSpeechError(event.error);
                     };
                     
                     this.recognition.onend = () => {
+                        if (silenceTimer) {
+                            clearTimeout(silenceTimer);
+                        }
+                        
                         this.isListening = false;
                         this.voiceButton.classList.remove('listening');
                         this.voiceButton.innerHTML = '🎤';
                         this.hideAudioVisualizer();
+                        
+                        // Only send message if we have content
+                        if (this.messageInput.value.trim()) {
+                            this.sendMessage();
+                        }
                     };
                     
                     this.speechStatus.classList.remove('inactive');
@@ -704,7 +714,7 @@ Keep responses conversational, helpful, and always focused on how Chargebee can 
             setUserType(type) {
                 this.userType = type;
                 this.userTypeButtons.forEach(btn => btn.classList.remove('active'));
-                document.querySelector(`[data-type="${type}"]`).classList.add('active');
+                document.querySelector('[data-type="' + type + '"]').classList.add('active');
                 
                 const typeDescriptions = {
                     executive: 'Executive/Business focus - ROI, revenue, strategic value',
@@ -720,9 +730,20 @@ Keep responses conversational, helpful, and always focused on how Chargebee can 
             }
 
             toggleVoiceRecognition() {
+                // If speech synthesis is currently active, stop it first
+                if (this.synthesis && this.synthesis.speaking) {
+                    this.synthesis.cancel();
+                    this.ttsStatus.classList.add('inactive');
+                    this.resetAllSpeakerButtons();
+                    return;
+                }
+                
                 if (this.isListening) {
+                    // Stop listening and process what we have
                     this.recognition.stop();
                 } else if (this.recognition) {
+                    // Clear any existing text and start listening
+                    this.messageInput.value = '';
                     this.recognition.start();
                 } else {
                     this.addSystemMessage('Speech recognition not available in this browser');
@@ -779,34 +800,28 @@ Keep responses conversational, helpful, and always focused on how Chargebee can 
                     const response = await this.callGeminiAI(message);
                     this.removeTypingIndicator();
                     this.addBotMessage(response);
-                    this.speakResponse(response);
-                    this.aiStatus.classList.remove('inactive'); // Mark AI as working
+                    this.aiStatus.classList.remove('inactive');
                 } catch (error) {
                     this.removeTypingIndicator();
-                    this.aiStatus.classList.add('inactive'); // Mark AI as having issues
+                    this.aiStatus.classList.add('inactive');
                     
                     console.error('Gemini AI Error:', error);
                     
-                    // Provide a helpful fallback response
                     const fallbackResponse = this.getFallbackResponse(message);
-                    this.addBotMessage(`⚠️ I'm experiencing some technical difficulties with my AI processing, but I can still help! \n\n${fallbackResponse}\n\n<em>Please try your question again in a moment, or contact our support team for immediate assistance.</em>`);
-                    this.speakResponse("I'm experiencing some technical difficulties, but I'm still here to help you with Chargebee!");
+                    this.addBotMessage('⚠️ I am experiencing some technical difficulties with my AI processing, but I can still help! \n\n' + fallbackResponse + '\n\nPlease try your question again in a moment, or contact our support team for immediate assistance.');
                 }
             }
 
             async callGeminiAI(message) {
-                // Format conversation history for Gemini
-                let conversationContext = this.systemPrompt + "\n\nConversation History:\n";
+                let conversationContext = this.systemPrompt + '\n\nConversation History:\n';
                 
-                // Add recent conversation history
-                const recentHistory = this.conversationHistory.slice(-8); // Keep last 8 messages
+                const recentHistory = this.conversationHistory.slice(-8);
                 recentHistory.forEach(msg => {
-                    conversationContext += `${msg.role === 'user' ? 'User' : 'ChargebeeBot'}: ${msg.content}\n`;
+                    conversationContext += (msg.role === 'user' ? 'User' : 'ChargebeeBot') + ': ' + msg.content + '\n';
                 });
                 
-                conversationContext += `\nUser: ${message}\nChargebeeBot:`;
+                conversationContext += '\nUser: ' + message + '\nChargebeeBot:';
 
-                // Try multiple Gemini models in order of preference
                 const modelsToTry = [
                     'gemini-1.5-pro-latest',
                     'gemini-1.5-pro',
@@ -817,9 +832,9 @@ Keep responses conversational, helpful, and always focused on how Chargebee can 
                 
                 for (let modelName of modelsToTry) {
                     try {
-                        console.log(`Trying Gemini model: ${modelName}`);
+                        console.log('Trying Gemini model: ' + modelName);
                         
-                        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${this.geminiApiKey}`, {
+                        const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + modelName + ':generateContent?key=' + this.geminiApiKey, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'
@@ -839,20 +854,20 @@ Keep responses conversational, helpful, and always focused on how Chargebee can 
                                 },
                                 safetySettings: [
                                     {
-                                        category: "HARM_CATEGORY_HARASSMENT",
-                                        threshold: "BLOCK_MEDIUM_AND_ABOVE"
+                                        category: 'HARM_CATEGORY_HARASSMENT',
+                                        threshold: 'BLOCK_MEDIUM_AND_ABOVE'
                                     },
                                     {
-                                        category: "HARM_CATEGORY_HATE_SPEECH",
-                                        threshold: "BLOCK_MEDIUM_AND_ABOVE"
+                                        category: 'HARM_CATEGORY_HATE_SPEECH',
+                                        threshold: 'BLOCK_MEDIUM_AND_ABOVE'
                                     },
                                     {
-                                        category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-                                        threshold: "BLOCK_MEDIUM_AND_ABOVE"
+                                        category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
+                                        threshold: 'BLOCK_MEDIUM_AND_ABOVE'
                                     },
                                     {
-                                        category: "HARM_CATEGORY_DANGEROUS_CONTENT",
-                                        threshold: "BLOCK_MEDIUM_AND_ABOVE"
+                                        category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
+                                        threshold: 'BLOCK_MEDIUM_AND_ABOVE'
                                     }
                                 ]
                             })
@@ -860,26 +875,24 @@ Keep responses conversational, helpful, and always focused on how Chargebee can 
 
                         if (!response.ok) {
                             const errorData = await response.text();
-                            console.log(`Gemini model ${modelName} failed with status ${response.status}:`, errorData);
+                            console.log('Gemini model ' + modelName + ' failed with status ' + response.status + ': ' + errorData);
                             
-                            // If this is the last model to try, throw an error
                             if (modelName === modelsToTry[modelsToTry.length - 1]) {
-                                throw new Error(`All Gemini models failed. Last error: ${response.status} - ${errorData}`);
+                                throw new Error('All Gemini models failed. Last error: ' + response.status + ' - ' + errorData);
                             }
-                            continue; // Try next model
+                            continue;
                         }
 
                         const data = await response.json();
                         
                         if (!data.candidates || !data.candidates[0] || !data.candidates[0].content || !data.candidates[0].content.parts || !data.candidates[0].content.parts[0]) {
-                            console.log(`Gemini model ${modelName} returned invalid response:`, data);
-                            continue; // Try next model
+                            console.log('Gemini model ' + modelName + ' returned invalid response:', data);
+                            continue;
                         }
 
                         const aiResponse = data.candidates[0].content.parts[0].text;
-                        console.log(`Successfully used Gemini model: ${modelName}`);
+                        console.log('Successfully used Gemini model: ' + modelName);
 
-                        // Update conversation history
                         this.conversationHistory.push(
                             { role: 'user', content: message },
                             { role: 'assistant', content: aiResponse }
@@ -888,36 +901,33 @@ Keep responses conversational, helpful, and always focused on how Chargebee can 
                         return aiResponse;
                         
                     } catch (error) {
-                        console.log(`Gemini model ${modelName} error:`, error.message);
-                        // Continue to next model unless it's the last one
+                        console.log('Gemini model ' + modelName + ' error: ' + error.message);
                         if (modelName === modelsToTry[modelsToTry.length - 1]) {
                             throw error;
                         }
                     }
                 }
 
-                // Fallback response if all models fail
                 return this.getFallbackResponse(message);
             }
 
             getFallbackResponse(message) {
                 const fallbackResponses = {
-                    greeting: "Hello! I'm ChargebeeBot, your subscription billing expert. While I'm experiencing some technical difficulties with my AI processing, I'm still here to help! Please try your question again, or visit https://chargebee.com for immediate assistance.",
+                    greeting: 'Hello! I am ChargebeeBot, your subscription billing expert. While I am experiencing some technical difficulties with my AI processing, I am still here to help! Please try your question again, or visit https://www.chargebee.com/ for immediate assistance.',
                     
-                    pricing: "Chargebee offers flexible pricing plans for businesses of all sizes. Our Starter plan begins at $99/month and scales with your business. For detailed pricing information, please visit https://chargebee.com/pricing or contact our sales team for a custom quote.",
+                    pricing: 'Chargebee offers flexible pricing plans for businesses of all sizes. Our Launch plan begins at $99/month and scales with your business. For detailed pricing information, please visit https://www.chargebee.com/pricing/ or contact our sales team for a custom quote.',
                     
-                    integration: "Chargebee integrates seamlessly with 100+ tools including Stripe, PayPal, Salesforce, and more. Our robust API documentation is available at https://apidocs.chargebee.com. For implementation guidance, please contact our technical team.",
+                    integration: 'Chargebee integrates seamlessly with 100+ tools including Stripe, PayPal, Salesforce, and more. Our robust API documentation is available at https://apidocs.chargebee.com/docs/api/. For implementation guidance, please contact our technical team.',
                     
-                    demo: "I'd be happy to help you schedule a demo! Please visit https://chargebee.com/schedule-a-demo to book a personalized session with our solution experts who can show you exactly how Chargebee can transform your subscription billing.",
+                    demo: 'I would be happy to help you schedule a demo! Please visit https://www.chargebee.com/schedule-a-demo/ to book a personalized session with our solution experts who can show you exactly how Chargebee can transform your subscription billing.',
                     
-                    roi: "Chargebee typically delivers 300%+ ROI within the first year, with 80% reduction in billing overhead and 6-month average payback period. Our customers see 40% improvement in payment recovery and 50% faster time-to-revenue for new products.",
+                    roi: 'Chargebee typically delivers 300%+ ROI within the first year, with 80% reduction in billing overhead and 6-month average payback period. Our customers see 40% improvement in payment recovery and 50% faster time-to-revenue for new products.',
                     
-                    support: "For immediate technical support, please visit https://chargebee.com/support or contact our team directly. Our experts are available 24/7 to help with any billing, integration, or account-related questions.",
+                    support: 'For immediate technical support, please visit https://www.chargebee.com/support/ or contact our team directly. Our experts are available 24/7 to help with any billing, integration, or account-related questions.',
                     
-                    general: "Thanks for your question! While I'm experiencing some connectivity issues, I'm still here to help with subscription billing, pricing strategies, API integrations, and more. Please try again or visit https://chargebee.com for comprehensive resources."
+                    general: 'Thanks for your question! While I am experiencing some connectivity issues, I am still here to help with subscription billing, pricing strategies, API integrations, and more. Please try again or visit https://www.chargebee.com/ for comprehensive resources.'
                 };
 
-                // Simple keyword matching for fallback responses
                 const lowerMessage = message.toLowerCase();
                 
                 if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
@@ -937,17 +947,29 @@ Keep responses conversational, helpful, and always focused on how Chargebee can 
                 }
             }
 
-            speakResponse(text) {
+            speakResponse(text, buttonElement) {
                 if (this.synthesis && 'speechSynthesis' in window) {
-                    // Cancel any ongoing speech
-                    this.synthesis.cancel();
+                    // If this button is currently speaking, stop it
+                    if (buttonElement && buttonElement.classList.contains('speaking')) {
+                        this.synthesis.cancel();
+                        this.ttsStatus.classList.add('inactive');
+                        this.resetAllSpeakerButtons();
+                        return;
+                    }
                     
-                    const utterance = new SpeechSynthesisUtterance(text);
+                    // If any other speech is playing, stop it first
+                    if (this.synthesis.speaking) {
+                        this.synthesis.cancel();
+                        this.resetAllSpeakerButtons();
+                    }
+                    
+                    const cleanText = text.replace(/<[^>]*>/g, '').replace(/[🔗📊⚙️📈💰🔌📅]/g, '');
+                    
+                    const utterance = new SpeechSynthesisUtterance(cleanText);
                     utterance.rate = 0.9;
                     utterance.pitch = 1;
                     utterance.volume = 0.8;
                     
-                    // Try to use a professional voice
                     const voices = this.synthesis.getVoices();
                     const preferredVoice = voices.find(voice => 
                         voice.lang.includes('en') && (voice.name.includes('Google') || voice.name.includes('Microsoft'))
@@ -958,16 +980,44 @@ Keep responses conversational, helpful, and always focused on how Chargebee can 
                     
                     utterance.onstart = () => {
                         this.ttsStatus.classList.remove('inactive');
+                        if (buttonElement) {
+                            buttonElement.classList.add('speaking');
+                            buttonElement.innerHTML = '🔇';
+                            buttonElement.title = 'Click to stop';
+                        }
                     };
                     
                     utterance.onend = () => {
                         this.ttsStatus.classList.add('inactive');
+                        if (buttonElement) {
+                            buttonElement.classList.remove('speaking');
+                            buttonElement.innerHTML = '🔊';
+                            buttonElement.title = 'Click to listen';
+                        }
+                    };
+                    
+                    utterance.onerror = () => {
+                        this.ttsStatus.classList.add('inactive');
+                        if (buttonElement) {
+                            buttonElement.classList.remove('speaking');
+                            buttonElement.innerHTML = '🔊';
+                            buttonElement.title = 'Click to listen';
+                        }
                     };
                     
                     this.synthesis.speak(utterance);
                 } else {
                     this.ttsStatus.classList.add('inactive');
                 }
+            }
+
+            resetAllSpeakerButtons() {
+                const speakerButtons = document.querySelectorAll('.speaker-btn');
+                speakerButtons.forEach(btn => {
+                    btn.classList.remove('speaking');
+                    btn.innerHTML = '🔊';
+                    btn.title = 'Click to listen';
+                });
             }
 
             addUserMessage(message) {
@@ -981,7 +1031,19 @@ Keep responses conversational, helpful, and always focused on how Chargebee can 
             addBotMessage(message) {
                 const messageDiv = document.createElement('div');
                 messageDiv.className = 'message bot';
-                messageDiv.innerHTML = this.formatBotMessage(message);
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.innerHTML = this.formatBotMessage(message);
+                
+                const speakerButton = document.createElement('button');
+                speakerButton.className = 'speaker-btn';
+                speakerButton.innerHTML = '🔊';
+                speakerButton.title = 'Click to listen';
+                speakerButton.onclick = () => this.speakResponse(message, speakerButton);
+                
+                messageDiv.appendChild(contentDiv);
+                messageDiv.appendChild(speakerButton);
+                
                 this.chatMessages.appendChild(messageDiv);
                 this.scrollToBottom();
             }
@@ -993,7 +1055,6 @@ Keep responses conversational, helpful, and always focused on how Chargebee can 
                 this.chatMessages.appendChild(messageDiv);
                 this.scrollToBottom();
                 
-                // Auto-remove system messages after 3 seconds
                 setTimeout(() => {
                     if (messageDiv.parentNode) {
                         messageDiv.remove();
@@ -1013,14 +1074,7 @@ Keep responses conversational, helpful, and always focused on how Chargebee can 
                 const typingDiv = document.createElement('div');
                 typingDiv.className = 'message bot typing';
                 typingDiv.id = 'typingIndicator';
-                typingDiv.innerHTML = `
-                    <span>ChargebeeBot is thinking</span>
-                    <div class="typing-dots">
-                        <div class="typing-dot"></div>
-                        <div class="typing-dot"></div>
-                        <div class="typing-dot"></div>
-                    </div>
-                `;
+                typingDiv.innerHTML = '<span>ChargebeeBot is thinking</span><div class="typing-dots"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
                 this.chatMessages.appendChild(typingDiv);
                 this.scrollToBottom();
             }
@@ -1033,7 +1087,6 @@ Keep responses conversational, helpful, and always focused on how Chargebee can 
             }
 
             formatBotMessage(message) {
-                // Convert markdown-like formatting to HTML
                 let formatted = message
                     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                     .replace(/\*(.*?)\*/g, '<em>$1</em>')
@@ -1042,11 +1095,68 @@ Keep responses conversational, helpful, and always focused on how Chargebee can 
                     .replace(/\n- /g, '<br>• ')
                     .replace(/\n\d+\. /g, '<br>1. ');
 
-                // Add Chargebee resource links
+                // First, handle markdown-style links [text](url) and convert them to HTML
+                formatted = formatted.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" class="chargebee-link">$1</a>');
+
+                // Protect existing anchor tags by temporarily replacing them
+                const existingLinks = [];
+                formatted = formatted.replace(/<a[^>]*href="[^"]*"[^>]*>.*?<\/a>/g, (match) => {
+                    const placeholder = `__EXISTING_LINK_${existingLinks.length}__`;
+                    existingLinks.push(match);
+                    return placeholder;
+                });
+
+                // Now safely replace bare URLs that aren't already in links
+                const linkReplacements = [
+                    {
+                        pattern: /https?:\/\/www\.chargebee\.com\/pricing\/?(?!\w)/g,
+                        replacement: '<a href="$&" target="_blank" class="chargebee-link">View Chargebee Pricing Plans</a>'
+                    },
+                    {
+                        pattern: /https?:\/\/www\.chargebee\.com\/schedule-a-demo\/?(?!\w)/g,
+                        replacement: '<a href="$&" target="_blank" class="chargebee-link">Schedule a Demo</a>'
+                    },
+                    {
+                        pattern: /https?:\/\/apidocs\.chargebee\.com\/docs\/api\/?(?!\w)/g,
+                        replacement: '<a href="$&" target="_blank" class="chargebee-link">API Documentation</a>'
+                    },
+                    {
+                        pattern: /https?:\/\/www\.chargebee\.com\/integrations\/?(?!\w)/g,
+                        replacement: '<a href="$&" target="_blank" class="chargebee-link">View Integrations</a>'
+                    },
+                    {
+                        pattern: /https?:\/\/www\.chargebee\.com\/support\/?(?!\w)/g,
+                        replacement: '<a href="$&" target="_blank" class="chargebee-link">Get Support</a>'
+                    },
+                    {
+                        pattern: /https?:\/\/api-explorer\.chargebee\.com\/?(?!\w)/g,
+                        replacement: '<a href="$&" target="_blank" class="chargebee-link">API Explorer</a>'
+                    },
+                    {
+                        pattern: /https?:\/\/status\.chargebee\.com\/?(?!\w)/g,
+                        replacement: '<a href="$&" target="_blank" class="chargebee-link">System Status</a>'
+                    },
+                    {
+                        pattern: /https?:\/\/release-notes\.chargebee\.com\/?(?!\w)/g,
+                        replacement: '<a href="$&" target="_blank" class="chargebee-link">Release Notes</a>'
+                    }
+                ];
+
+                // Apply specific link replacements only to bare URLs
+                linkReplacements.forEach(link => {
+                    formatted = formatted.replace(link.pattern, link.replacement);
+                });
+
+                // Handle remaining chargebee URLs that don't match specific patterns
                 formatted = formatted.replace(
-                    /(chargebee\.com|apidocs\.chargebee\.com|api-explorer\.chargebee\.com|status\.chargebee\.com|release-notes\.chargebee\.com)/g,
-                    '<a href="https://$1" target="_blank" style="color: var(--orange-500); text-decoration: none;">$1</a>'
+                    /https?:\/\/(?:[^.\s]*\.)?chargebee\.com(?:\/[^\s<"]*)?(?!\w)/g,
+                    '<a href="$&" target="_blank" class="chargebee-link">$&</a>'
                 );
+
+                // Restore the existing links
+                existingLinks.forEach((link, index) => {
+                    formatted = formatted.replace(`__EXISTING_LINK_${index}__`, link);
+                });
 
                 return formatted;
             }
@@ -1056,42 +1166,35 @@ Keep responses conversational, helpful, and always focused on how Chargebee can 
             }
 
             updateStatus() {
-                // Check OpenAI API status
                 this.aiStatus.classList.remove('inactive');
                 
-                // Check TTS status
                 if ('speechSynthesis' in window) {
                     this.ttsStatus.classList.remove('inactive');
                 } else {
                     this.ttsStatus.classList.add('inactive');
                 }
 
-                // Periodically update status
                 setInterval(() => {
-                    // You could add actual health checks here
+                    // Health checks
                 }, 30000);
             }
         }
 
-        // Quick message function for action buttons
         function sendQuickMessage(message) {
             const input = document.getElementById('messageInput');
             input.value = message;
             voiceAgent.sendMessage();
         }
 
-        // Initialize the voice agent when page loads
         let voiceAgent;
         window.addEventListener('load', () => {
             voiceAgent = new ChargebeeBotVoiceAgent();
             
-            // Add welcome animation
             setTimeout(() => {
                 document.querySelector('.header').style.animation = 'slideIn 0.6s ease';
             }, 100);
         });
 
-        // Load voices when available
         if ('speechSynthesis' in window) {
             speechSynthesis.onvoiceschanged = () => {
                 // Voices loaded

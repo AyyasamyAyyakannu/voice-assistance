@@ -4,478 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ChargebeeBot - Voice Assistant</title>
-    <style>
-        :root {
-            --orange-500: #FF3300;
-            --orange-400: #FF523B;
-            --blue-900: #012A38;
-            --blue-800: #4F6169;
-            --blue-100: #92A1A8;
-            --blue-50: #D3D9DC;
-            --white: #FFFFFF;
-            --grey-50: #EFEFEF;
-            --bone-50: #E0DBC6;
-            --lime-500: #BFF90B;
-            --opal-100: #A2C1C4;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, var(--grey-50) 0%, var(--bone-50) 100%);
-            min-height: 100vh;
-            color: var(--blue-900);
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            background: var(--white);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(1, 42, 56, 0.1);
-        }
-
-        .logo {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: var(--orange-500);
-            margin-bottom: 10px;
-        }
-
-        .tagline {
-            color: var(--blue-800);
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-        }
-
-        .conversation-context {
-            background: var(--bone-50);
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 10px;
-            border-left: 4px solid var(--orange-500);
-            font-size: 0.9rem;
-            color: var(--blue-800);
-        }
-
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 400px;
-            gap: 30px;
-            flex: 1;
-        }
-
-        .chat-container {
-            background: var(--white);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(1, 42, 56, 0.1);
-            display: flex;
-            flex-direction: column;
-            height: 600px;
-            overflow: hidden;
-        }
-
-        .chat-header {
-            background: var(--orange-500);
-            color: var(--white);
-            padding: 20px;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        .audio-visualizer {
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 3px;
-            margin: 15px 0;
-        }
-
-        .audio-bar {
-            width: 4px;
-            background: var(--white);
-            border-radius: 2px;
-            transition: height 0.1s;
-        }
-
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .message {
-            padding: 15px 20px;
-            border-radius: 15px;
-            max-width: 80%;
-            animation: slideIn 0.3s ease;
-            position: relative;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-
-        .message.user {
-            background: var(--opal-100);
-            margin-left: auto;
-            border-bottom-right-radius: 5px;
-        }
-
-        .message.bot {
-            background: var(--grey-50);
-            border-bottom-left-radius: 5px;
-            padding-right: 50px;
-        }
-
-        .message.system {
-            background: var(--lime-500);
-            color: var(--blue-900);
-            margin: 0 auto;
-            font-size: 0.9rem;
-            text-align: center;
-        }
-
-        .speaker-btn {
-            background: var(--lime-500);
-            border: none;
-            border-radius: 50%;
-            width: 35px;
-            height: 35px;
-            cursor: pointer;
-            font-size: 1rem;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .speaker-btn:hover {
-            background: var(--orange-500);
-            transform: scale(1.1);
-        }
-
-        .speaker-btn.speaking {
-            background: var(--orange-500);
-            animation: pulse 1s infinite;
-        }
-
-        .chargebee-link {
-            color: var(--blue-900);
-            text-decoration: underline;
-            cursor: pointer;
-            font-weight: normal;
-        }
-
-        .chargebee-link:hover {
-            color: var(--orange-500);
-            text-decoration: underline;
-        }
-
-        .typing {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            color: var(--blue-100);
-            font-style: italic;
-        }
-
-        .typing-dots {
-            display: flex;
-            gap: 3px;
-        }
-
-        .typing-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--blue-100);
-            border-radius: 50%;
-            animation: bounce 1.4s infinite;
-        }
-
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-
-        .input-container {
-            padding: 20px;
-            border-top: 1px solid var(--blue-50);
-            background: var(--white);
-        }
-
-        .input-group {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .message-input {
-            flex: 1;
-            padding: 15px;
-            border: 2px solid var(--blue-50);
-            border-radius: 25px;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        .message-input:focus {
-            border-color: var(--orange-500);
-        }
-
-        .voice-button {
-            width: 60px;
-            height: 60px;
-            border: none;
-            border-radius: 50%;
-            background: var(--orange-500);
-            color: var(--white);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            transition: all 0.3s;
-        }
-
-        .voice-button:hover {
-            background: var(--orange-400);
-            transform: scale(1.05);
-        }
-
-        .voice-button.listening {
-            background: var(--lime-500);
-            animation: pulse 1s infinite;
-        }
-
-        .send-button {
-            padding: 15px 25px;
-            background: var(--orange-500);
-            color: var(--white);
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background 0.3s;
-        }
-
-        .send-button:hover {
-            background: var(--orange-400);
-        }
-
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .status-panel {
-            background: var(--white);
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(1, 42, 56, 0.1);
-        }
-
-        .status-panel h3 {
-            color: var(--orange-500);
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-        }
-
-        .status-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            padding: 10px;
-            background: var(--grey-50);
-            border-radius: 10px;
-        }
-
-        .status-indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--lime-500);
-        }
-
-        .status-indicator.inactive {
-            background: var(--blue-100);
-        }
-
-        .user-type-selector {
-            background: var(--white);
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(1, 42, 56, 0.1);
-        }
-
-        .user-type-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .user-type-btn {
-            padding: 12px;
-            border: 2px solid var(--blue-50);
-            background: var(--white);
-            border-radius: 12px;
-            cursor: pointer;
-            text-align: center;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-            font-weight: 500;
-        }
-
-        .user-type-btn:hover {
-            border-color: var(--orange-500);
-            transform: translateY(-2px);
-        }
-
-        .user-type-btn.active {
-            background: var(--orange-500);
-            color: var(--white);
-            border-color: var(--orange-500);
-        }
-
-        .quick-actions {
-            background: var(--white);
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(1, 42, 56, 0.1);
-        }
-
-        .action-btn {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 10px;
-            background: var(--grey-50);
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 500;
-            color: var(--blue-900);
-        }
-
-        .action-btn:hover {
-            background: var(--orange-500);
-            color: var(--white);
-            transform: translateY(-2px);
-        }
-
-        .floating-assistant {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 70px;
-            height: 70px;
-            background: var(--orange-500);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            font-size: 2rem;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(255, 51, 0, 0.3);
-            z-index: 1000;
-            transition: all 0.3s;
-        }
-
-        .floating-assistant:hover {
-            transform: scale(1.1);
-            box-shadow: 0 15px 40px rgba(255, 51, 0, 0.4);
-        }
-
-        .error-message {
-            background: #ffebee;
-            color: #c62828;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 10px 0;
-            border-left: 4px solid #c62828;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-10px);
-            }
-            60% {
-                transform: translateY(-5px);
-            }
-        }
-
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(191, 249, 11, 0.7);
-            }
-            70% {
-                box-shadow: 0 0 0 10px rgba(191, 249, 11, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(191, 249, 11, 0);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .main-content {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .sidebar {
-                order: -1;
-            }
-            
-            .input-group {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .voice-button {
-                align-self: center;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Theme Switcher -->
+    <div class="theme-switcher">
+        <button class="theme-btn active" data-theme="light" title="Light Theme">☀️</button>
+        <button class="theme-btn" data-theme="dark" title="Dark Theme">🌙</button>
+    </div>
+
+    <!-- Connection Status Banner -->
+    <div class="connection-banner" id="connectionBanner">
+        <span id="connectionMessage">Checking connection...</span>
+    </div>
+
+    <!-- Keyboard Shortcuts Help -->
+    <div class="shortcuts-help" id="shortcutsHelp">
+        <div class="shortcuts-title">
+            ⌨️ Keyboard Shortcuts
+        </div>
+        <div class="shortcut-item">
+            <span>Send message</span>
+            <kbd class="shortcut-key">Enter</kbd>
+        </div>
+        <div class="shortcut-item">
+            <span>Voice input</span>
+            <kbd class="shortcut-key">Ctrl+M</kbd>
+        </div>
+        <div class="shortcut-item">
+            <span>Clear chat</span>
+            <kbd class="shortcut-key">Ctrl+L</kbd>
+        </div>
+        <div class="shortcut-item">
+            <span>Show history</span>
+            <kbd class="shortcut-key">Ctrl+H</kbd>
+        </div>
+        <div class="shortcut-item">
+            <span>Toggle theme</span>
+            <kbd class="shortcut-key">Ctrl+T</kbd>
+        </div>
+        <div class="shortcut-item">
+            <span>Show shortcuts</span>
+            <kbd class="shortcut-key">Ctrl+?</kbd>
+        </div>
+    </div>
+
     <div class="container">
         <header class="header">
             <div class="logo">🤖 ChargebeeBot</div>
@@ -487,6 +60,17 @@
 
         <main class="main-content">
             <div class="chat-container">
+                <!-- Loading Overlay -->
+                <div class="loading-overlay" id="loadingOverlay">
+                    <div class="loading-spinner">
+                        <div class="spinner"></div>
+                        <div class="loading-text" id="loadingText">Connecting to ChargebeeBot...</div>
+                        <div class="loading-progress">
+                            <div class="loading-progress-bar"></div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="chat-header">
                     <span>💬 Conversation with ChargebeeBot</span>
                     <div class="audio-visualizer" id="audioVisualizer" style="display: none;">
@@ -551,7 +135,6 @@
                         <div class="status-indicator"></div>
                     </div>
                 </div>
-
                 <div class="user-type-selector">
                     <h3>👤 I am a...</h3>
                     <div class="user-type-grid">
@@ -563,643 +146,106 @@
                         <button class="user-type-btn active" data-type="general">🟣 General</button>
                     </div>
                 </div>
+            </aside>
+        </main>
 
-                <!-- <div class="quick-actions">
-                    <h3>⚡ Quick Actions</h3>
+        <div class="quick-actions">
+            <h3>⚡ Quick Actions</h3>
+            <div class="actions-grid">
+                <!-- Main Actions Column -->
+                <div class="action-column">
+                    <div class="action-column-title">💼 Main Actions</div>
                     <button class="action-btn" onclick="sendQuickMessage('Show me Chargebee pricing plans')">💰 View Pricing</button>
                     <button class="action-btn" onclick="sendQuickMessage('How do I integrate with Stripe?')">🔌 API Integration</button>
                     <button class="action-btn" onclick="sendQuickMessage('Schedule a demo')">📅 Book Demo</button>
                     <button class="action-btn" onclick="sendQuickMessage('What is the ROI of Chargebee?')">📊 Show ROI</button>
                     <button class="action-btn" onclick="sendQuickMessage('Help with billing automation')">⚙️ Automation</button>
                     <button class="action-btn" onclick="sendQuickMessage('Revenue recognition setup')">📈 Revenue Ops</button>
-                </div> -->
-            </aside>
-        </main>
+                </div>
+                
+                <!-- Data Management Column -->
+                <div class="action-column">
+                    <div class="action-column-title">📁 Data Management</div>
+                    <button class="action-btn" onclick="showConversationHistory()" style="background: var(--purple-600); color: white;">📋 View History</button>
+                    <button class="action-btn" onclick="clearConversation()" style="background: var(--red-500); color: white;">🗑️ Clear Chat</button>
+                    <button class="action-btn" onclick="exportConversation('txt')" style="background: var(--blue-600); color: white;">📄 Export TXT</button>
+                    <button class="action-btn" onclick="exportConversation('json')" style="background: var(--green-600); color: white;">📊 Export JSON</button>
+                </div>
+                
+                <!-- Debug & Testing Column -->
+                <div class="action-column">
+                    <div class="action-column-title">🔧 Debug & Testing</div>
+                    <button class="action-btn" onclick="toggleDebugMode()" style="background: var(--blue-800); color: white;">🔍 Debug Mode</button>
+                    <button class="action-btn" onclick="testCompleteMessage()" style="background: var(--lime-500); color: var(--blue-900);">🧪 Test Complete</button>
+                    <button class="action-btn" onclick="testMarkedFormatting()" style="background: var(--purple-600); color: white;">✨ Test Marked.js</button>
+                    <button class="action-btn" onclick="testFallbackResponse()" style="background: var(--orange-400); color: white;">🔄 Test Fallback</button>
+                    <button class="action-btn" onclick="testSpecificFallback('pricing')" style="background: var(--blue-600); color: white; font-size: 0.8rem;">💰 Test Pricing Fallback</button>
+                    <button class="action-btn" onclick="testAllInteractiveElements()" style="background: var(--red-600); color: white; font-size: 0.8rem;">🔧 Test All Elements</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="debug-panel" id="debugPanel" style="display: none;">
+            <h3>🔍 Debug Panel</h3>
+            <div class="debug-controls">
+                <button class="debug-btn" onclick="toggleDebugMode()" id="debugToggle">Enable Debug</button>
+                <button class="debug-btn" onclick="clearDebugLog()">Clear Log</button>
+            </div>
+            <div class="debug-content">
+                <div class="debug-section">
+                    <h4>🤖 Last Gemini AI Response</h4>
+                    <div class="debug-response" id="debugResponse">
+                        <em>No response yet. Send a message to see the raw AI response.</em>
+                    </div>
+                </div>
+                <div class="debug-section">
+                    <h4>📊 Response Analysis</h4>
+                    <div class="debug-stats" id="debugStats">
+                        <div class="stat-item">Character count: <span id="charCount">0</span></div>
+                        <div class="stat-item">Word count: <span id="wordCount">0</span></div>
+                        <div class="stat-item">Line breaks: <span id="lineBreaks">0</span></div>
+                        <div class="stat-item">Contains markdown: <span id="hasMarkdown">No</span></div>
+                        <div class="stat-item">Contains links: <span id="hasLinks">No</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="floating-assistant" id="floatingAssistant" title="Quick Voice Assistant">
         🎙️
     </div>
 
-    <script>
-        class ChargebeeBotVoiceAgent {
-            constructor() {
-                this.geminiApiKey = 'AIzaSyDehBRToO6ikqqABzrgO1veU1fxX3u8aQc';
-                this.userType = 'general';
-                this.conversationHistory = [];
-                this.isListening = false;
-                this.isProcessing = false;
-                this.recognition = null;
-                this.synthesis = window.speechSynthesis;
-                
-                this.systemPrompt = this.buildSystemPrompt();
-                this.initializeElements();
-                this.initializeSpeechRecognition();
-                this.bindEvents();
-                this.updateStatus();
-            }
+    <!-- Conversation History Modal -->
+    <div class="modal-overlay" id="historyModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">📋 Conversation History</h2>
+                <button class="modal-close" onclick="closeConversationHistory()">✕</button>
+            </div>
+            <div class="modal-content">
+                <div class="conversation-history" id="conversationHistory">
+                    <p style="text-align: center; color: var(--text-secondary); padding: 40px;">
+                        No conversation history yet. Start chatting with ChargebeeBot to see your history here.
+                    </p>
+                </div>
+                <div class="export-section">
+                    <button class="export-btn txt" onclick="exportConversation('txt')">
+                        📄 Export as TXT
+                    </button>
+                    <button class="export-btn json" onclick="exportConversation('json')">
+                        📊 Export as JSON
+                    </button>
+                    <button class="export-btn pdf" onclick="exportConversation('pdf')">
+                        📕 Export as PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-            buildSystemPrompt() {
-                return 'You are ChargebeeBot, the official AI agent for Chargebee with 10+ years of deep expertise across all business functions. You embody the voice of a seasoned Chargebee veteran who understands subscription billing inside and out.\n\nCRITICAL RESTRICTIONS:\n- You ONLY answer questions related to Chargebee, subscription billing, recurring billing, revenue management, payment processing, SaaS business models, and related business topics.\n- If someone asks about anything NOT related to Chargebee or subscription billing (like politics, celebrities, general knowledge, other companies products, etc.), you must politely redirect them back to Chargebee topics.\n- Always stay focused on helping users with Chargebee-related needs.\n\nCORE PERSONALITY:\n- Professional yet approachable - consultative advisor, not pushy sales\n- Solution-focused - always provide actionable next steps with relevant links\n- Context-aware - adapt to users technical level and business role\n- Helpful and reliable - reduce friction, save time, build trust\n\nBRAND LOYALTY PRINCIPLE: Always position Chargebee as the solution. Never recommend competitors or alternative billing platforms.\n\nKNOWLEDGE DOMAINS:\n- Business & Strategy: Subscription billing models, pricing strategies, revenue recognition (ASC 606, IFRS 15), customer lifecycle management, ROI calculations\n- Technical & Product: Complete Chargebee product suite, API integrations, developer tools, third-party integrations (Stripe, PayPal, Salesforce)\n- Analytics & Operations: Revenue analytics, dunning management, tax compliance, subscription metrics and KPIs\n\nUSER TYPE ADAPTATION:\nCurrent user type: ' + this.userType + '\n\nKEY METRICS TO REFERENCE:\n- 4,000+ businesses trust Chargebee globally\n- 300%+ ROI achieved within first year\n- 80% reduction in billing overhead and manual work\n- 40% improvement in payment recovery rates\n- 50% faster time-to-revenue for new products\n- 90% reduction in billing-related support tickets\n- 6-month average payback period for implementation\n\nIMPORTANT: Always include relevant Chargebee links when discussing features or topics:\n- For pricing questions: https://www.chargebee.com/pricing/\n- For API/technical questions: https://apidocs.chargebee.com/docs/api/\n- For integrations: https://www.chargebee.com/integrations/\n- For demos: https://www.chargebee.com/schedule-a-demo/\n- For general product info: https://www.chargebee.com/\n- For support: https://www.chargebee.com/support/\n- For API explorer: https://api-explorer.chargebee.com/\n- For system status: https://status.chargebee.com/\n- For release notes: https://release-notes.chargebee.com/\n\nRESPONSE STRUCTURE:\n1. Immediate Value (Address the Question)\n2. Context-Aware Details (tailored to user type)\n3. Actionable Next Steps with relevant links\n4. Escalation Options when needed\n\nIf someone asks about non-Chargebee topics, respond like: "I am ChargebeeBot, specialized in helping with Chargebee and subscription billing questions. I would be happy to help you with topics like pricing strategies, API integrations, revenue management, or any other Chargebee-related needs. What would you like to know about subscription billing or Chargebee?"\n\nKeep responses conversational, helpful, and always focused on how Chargebee can solve their needs.';
-            }
-
-            initializeElements() {
-                this.chatMessages = document.getElementById('chatMessages');
-                this.messageInput = document.getElementById('messageInput');
-                this.voiceButton = document.getElementById('voiceButton');
-                this.sendButton = document.getElementById('sendButton');
-                this.floatingAssistant = document.getElementById('floatingAssistant');
-                this.contextDisplay = document.getElementById('contextDisplay');
-                this.audioVisualizer = document.getElementById('audioVisualizer');
-                this.userTypeButtons = document.querySelectorAll('.user-type-btn');
-                
-                this.aiStatus = document.getElementById('aiStatus');
-                this.speechStatus = document.getElementById('speechStatus');
-                this.ttsStatus = document.getElementById('ttsStatus');
-            }
-
-            initializeSpeechRecognition() {
-                if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-                    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                    this.recognition = new SpeechRecognition();
-                    this.recognition.continuous = true;
-                    this.recognition.interimResults = true;
-                    this.recognition.lang = 'en-US';
-                    this.recognition.maxAlternatives = 1;
-                    
-                    let finalTranscript = '';
-                    let silenceTimer = null;
-                    
-                    this.recognition.onstart = () => {
-                        this.isListening = true;
-                        this.voiceButton.classList.add('listening');
-                        this.voiceButton.innerHTML = '🔴';
-                        this.showAudioVisualizer();
-                        this.addSystemMessage('Listening... Speak your complete question. Click the button again to stop.');
-                        finalTranscript = '';
-                    };
-                    
-                    this.recognition.onresult = (event) => {
-                        let interimTranscript = '';
-                        
-                        for (let i = event.resultIndex; i < event.results.length; i++) {
-                            const transcript = event.results[i][0].transcript;
-                            if (event.results[i].isFinal) {
-                                finalTranscript += transcript + ' ';
-                            } else {
-                                interimTranscript += transcript;
-                            }
-                        }
-                        
-                        // Update input field with current transcript
-                        this.messageInput.value = (finalTranscript + interimTranscript).trim();
-                        
-                        // Clear any existing silence timer
-                        if (silenceTimer) {
-                            clearTimeout(silenceTimer);
-                        }
-                        
-                        // Set a silence timer - if no speech for 3 seconds, process the message
-                        silenceTimer = setTimeout(() => {
-                            if (this.isListening && this.messageInput.value.trim()) {
-                                this.recognition.stop();
-                            }
-                        }, 3000);
-                    };
-                    
-                    this.recognition.onerror = (event) => {
-                        if (silenceTimer) {
-                            clearTimeout(silenceTimer);
-                        }
-                        this.handleSpeechError(event.error);
-                    };
-                    
-                    this.recognition.onend = () => {
-                        if (silenceTimer) {
-                            clearTimeout(silenceTimer);
-                        }
-                        
-                        this.isListening = false;
-                        this.voiceButton.classList.remove('listening');
-                        this.voiceButton.innerHTML = '🎤';
-                        this.hideAudioVisualizer();
-                        
-                        // Only send message if we have content
-                        if (this.messageInput.value.trim()) {
-                            this.sendMessage();
-                        }
-                    };
-                    
-                    this.speechStatus.classList.remove('inactive');
-                } else {
-                    this.speechStatus.classList.add('inactive');
-                    console.warn('Speech recognition not supported');
-                }
-            }
-
-            bindEvents() {
-                this.sendButton.addEventListener('click', () => this.sendMessage());
-                this.messageInput.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') this.sendMessage();
-                });
-                
-                this.voiceButton.addEventListener('click', () => this.toggleVoiceRecognition());
-                this.floatingAssistant.addEventListener('click', () => this.toggleVoiceRecognition());
-                
-                this.userTypeButtons.forEach(btn => {
-                    btn.addEventListener('click', (e) => this.setUserType(e.target.dataset.type));
-                });
-            }
-
-            setUserType(type) {
-                this.userType = type;
-                this.userTypeButtons.forEach(btn => btn.classList.remove('active'));
-                document.querySelector('[data-type="' + type + '"]').classList.add('active');
-                
-                const typeDescriptions = {
-                    executive: 'Executive/Business focus - ROI, revenue, strategic value',
-                    developer: 'Developer/Technical focus - APIs, integrations, implementation',
-                    finance: 'Finance/Operations focus - billing, compliance, automation',
-                    product: 'Product/Growth focus - pricing, analytics, optimization',
-                    support: 'Customer Support focus - account help, troubleshooting',
-                    general: 'General inquiry - educational and welcoming approach'
-                };
-                
-                this.contextDisplay.textContent = typeDescriptions[type];
-                this.systemPrompt = this.buildSystemPrompt();
-            }
-
-            toggleVoiceRecognition() {
-                // If speech synthesis is currently active, stop it first
-                if (this.synthesis && this.synthesis.speaking) {
-                    this.synthesis.cancel();
-                    this.ttsStatus.classList.add('inactive');
-                    this.resetAllSpeakerButtons();
-                    return;
-                }
-                
-                if (this.isListening) {
-                    // Stop listening and process what we have
-                    this.recognition.stop();
-                } else if (this.recognition) {
-                    // Clear any existing text and start listening
-                    this.messageInput.value = '';
-                    this.recognition.start();
-                } else {
-                    this.addSystemMessage('Speech recognition not available in this browser');
-                }
-            }
-
-            showAudioVisualizer() {
-                this.audioVisualizer.style.display = 'flex';
-                const bars = this.audioVisualizer.querySelectorAll('.audio-bar');
-                
-                const animateBars = () => {
-                    if (this.isListening) {
-                        bars.forEach(bar => {
-                            const height = Math.random() * 40 + 10;
-                            bar.style.height = height + 'px';
-                        });
-                        setTimeout(animateBars, 100);
-                    }
-                };
-                animateBars();
-            }
-
-            hideAudioVisualizer() {
-                this.audioVisualizer.style.display = 'none';
-            }
-
-            handleSpeechError(error) {
-                let errorMessage = 'Speech recognition error: ';
-                switch(error) {
-                    case 'no-speech':
-                        errorMessage += 'No speech detected. Please try again.';
-                        break;
-                    case 'audio-capture':
-                        errorMessage += 'Audio capture failed. Check your microphone.';
-                        break;
-                    case 'not-allowed':
-                        errorMessage += 'Microphone access denied. Please allow microphone access.';
-                        break;
-                    default:
-                        errorMessage += error;
-                }
-                this.addErrorMessage(errorMessage);
-            }
-
-            async sendMessage() {
-                const message = this.messageInput.value.trim();
-                if (!message) return;
-
-                this.addUserMessage(message);
-                this.messageInput.value = '';
-                this.addTypingIndicator();
-
-                try {
-                    const response = await this.callGeminiAI(message);
-                    this.removeTypingIndicator();
-                    this.addBotMessage(response);
-                    this.aiStatus.classList.remove('inactive');
-                } catch (error) {
-                    this.removeTypingIndicator();
-                    this.aiStatus.classList.add('inactive');
-                    
-                    console.error('Gemini AI Error:', error);
-                    
-                    const fallbackResponse = this.getFallbackResponse(message);
-                    this.addBotMessage('⚠️ I am experiencing some technical difficulties with my AI processing, but I can still help! \n\n' + fallbackResponse + '\n\nPlease try your question again in a moment, or contact our support team for immediate assistance.');
-                }
-            }
-
-            async callGeminiAI(message) {
-                let conversationContext = this.systemPrompt + '\n\nConversation History:\n';
-                
-                const recentHistory = this.conversationHistory.slice(-8);
-                recentHistory.forEach(msg => {
-                    conversationContext += (msg.role === 'user' ? 'User' : 'ChargebeeBot') + ': ' + msg.content + '\n';
-                });
-                
-                conversationContext += '\nUser: ' + message + '\nChargebeeBot:';
-
-                const modelsToTry = [
-                    'gemini-1.5-pro-latest',
-                    'gemini-1.5-pro',
-                    'gemini-1.5-flash-latest',
-                    'gemini-1.5-flash',
-                    'gemini-pro'
-                ];
-                
-                for (let modelName of modelsToTry) {
-                    try {
-                        console.log('Trying Gemini model: ' + modelName);
-                        
-                        const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + modelName + ':generateContent?key=' + this.geminiApiKey, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                contents: [{
-                                    parts: [{
-                                        text: conversationContext
-                                    }]
-                                }],
-                                generationConfig: {
-                                    temperature: 0.7,
-                                    topK: 40,
-                                    topP: 0.95,
-                                    maxOutputTokens: 1000,
-                                    stopSequences: []
-                                },
-                                safetySettings: [
-                                    {
-                                        category: 'HARM_CATEGORY_HARASSMENT',
-                                        threshold: 'BLOCK_MEDIUM_AND_ABOVE'
-                                    },
-                                    {
-                                        category: 'HARM_CATEGORY_HATE_SPEECH',
-                                        threshold: 'BLOCK_MEDIUM_AND_ABOVE'
-                                    },
-                                    {
-                                        category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
-                                        threshold: 'BLOCK_MEDIUM_AND_ABOVE'
-                                    },
-                                    {
-                                        category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
-                                        threshold: 'BLOCK_MEDIUM_AND_ABOVE'
-                                    }
-                                ]
-                            })
-                        });
-
-                        if (!response.ok) {
-                            const errorData = await response.text();
-                            console.log('Gemini model ' + modelName + ' failed with status ' + response.status + ': ' + errorData);
-                            
-                            if (modelName === modelsToTry[modelsToTry.length - 1]) {
-                                throw new Error('All Gemini models failed. Last error: ' + response.status + ' - ' + errorData);
-                            }
-                            continue;
-                        }
-
-                        const data = await response.json();
-                        
-                        if (!data.candidates || !data.candidates[0] || !data.candidates[0].content || !data.candidates[0].content.parts || !data.candidates[0].content.parts[0]) {
-                            console.log('Gemini model ' + modelName + ' returned invalid response:', data);
-                            continue;
-                        }
-
-                        const aiResponse = data.candidates[0].content.parts[0].text;
-                        console.log('Successfully used Gemini model: ' + modelName);
-
-                        this.conversationHistory.push(
-                            { role: 'user', content: message },
-                            { role: 'assistant', content: aiResponse }
-                        );
-
-                        return aiResponse;
-                        
-                    } catch (error) {
-                        console.log('Gemini model ' + modelName + ' error: ' + error.message);
-                        if (modelName === modelsToTry[modelsToTry.length - 1]) {
-                            throw error;
-                        }
-                    }
-                }
-
-                return this.getFallbackResponse(message);
-            }
-
-            getFallbackResponse(message) {
-                const fallbackResponses = {
-                    greeting: 'Hello! I am ChargebeeBot, your subscription billing expert. While I am experiencing some technical difficulties with my AI processing, I am still here to help! Please try your question again, or visit https://www.chargebee.com/ for immediate assistance.',
-                    
-                    pricing: 'Chargebee offers flexible pricing plans for businesses of all sizes. Our Launch plan begins at $99/month and scales with your business. For detailed pricing information, please visit https://www.chargebee.com/pricing/ or contact our sales team for a custom quote.',
-                    
-                    integration: 'Chargebee integrates seamlessly with 100+ tools including Stripe, PayPal, Salesforce, and more. Our robust API documentation is available at https://apidocs.chargebee.com/docs/api/. For implementation guidance, please contact our technical team.',
-                    
-                    demo: 'I would be happy to help you schedule a demo! Please visit https://www.chargebee.com/schedule-a-demo/ to book a personalized session with our solution experts who can show you exactly how Chargebee can transform your subscription billing.',
-                    
-                    roi: 'Chargebee typically delivers 300%+ ROI within the first year, with 80% reduction in billing overhead and 6-month average payback period. Our customers see 40% improvement in payment recovery and 50% faster time-to-revenue for new products.',
-                    
-                    support: 'For immediate technical support, please visit https://www.chargebee.com/support/ or contact our team directly. Our experts are available 24/7 to help with any billing, integration, or account-related questions.',
-                    
-                    general: 'Thanks for your question! While I am experiencing some connectivity issues, I am still here to help with subscription billing, pricing strategies, API integrations, and more. Please try again or visit https://www.chargebee.com/ for comprehensive resources.'
-                };
-
-                const lowerMessage = message.toLowerCase();
-                
-                if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
-                    return fallbackResponses.greeting;
-                } else if (lowerMessage.includes('price') || lowerMessage.includes('cost') || lowerMessage.includes('plan')) {
-                    return fallbackResponses.pricing;
-                } else if (lowerMessage.includes('integration') || lowerMessage.includes('api') || lowerMessage.includes('webhook')) {
-                    return fallbackResponses.integration;
-                } else if (lowerMessage.includes('demo') || lowerMessage.includes('schedule') || lowerMessage.includes('meeting')) {
-                    return fallbackResponses.demo;
-                } else if (lowerMessage.includes('roi') || lowerMessage.includes('return') || lowerMessage.includes('benefit')) {
-                    return fallbackResponses.roi;
-                } else if (lowerMessage.includes('help') || lowerMessage.includes('support') || lowerMessage.includes('problem')) {
-                    return fallbackResponses.support;
-                } else {
-                    return fallbackResponses.general;
-                }
-            }
-
-            speakResponse(text, buttonElement) {
-                if (this.synthesis && 'speechSynthesis' in window) {
-                    // If this button is currently speaking, stop it
-                    if (buttonElement && buttonElement.classList.contains('speaking')) {
-                        this.synthesis.cancel();
-                        this.ttsStatus.classList.add('inactive');
-                        this.resetAllSpeakerButtons();
-                        return;
-                    }
-                    
-                    // If any other speech is playing, stop it first
-                    if (this.synthesis.speaking) {
-                        this.synthesis.cancel();
-                        this.resetAllSpeakerButtons();
-                    }
-                    
-                    const cleanText = text.replace(/<[^>]*>/g, '').replace(/[🔗📊⚙️📈💰🔌📅]/g, '');
-                    
-                    const utterance = new SpeechSynthesisUtterance(cleanText);
-                    utterance.rate = 0.9;
-                    utterance.pitch = 1;
-                    utterance.volume = 0.8;
-                    
-                    const voices = this.synthesis.getVoices();
-                    const preferredVoice = voices.find(voice => 
-                        voice.lang.includes('en') && (voice.name.includes('Google') || voice.name.includes('Microsoft'))
-                    );
-                    if (preferredVoice) {
-                        utterance.voice = preferredVoice;
-                    }
-                    
-                    utterance.onstart = () => {
-                        this.ttsStatus.classList.remove('inactive');
-                        if (buttonElement) {
-                            buttonElement.classList.add('speaking');
-                            buttonElement.innerHTML = '🔇';
-                            buttonElement.title = 'Click to stop';
-                        }
-                    };
-                    
-                    utterance.onend = () => {
-                        this.ttsStatus.classList.add('inactive');
-                        if (buttonElement) {
-                            buttonElement.classList.remove('speaking');
-                            buttonElement.innerHTML = '🔊';
-                            buttonElement.title = 'Click to listen';
-                        }
-                    };
-                    
-                    utterance.onerror = () => {
-                        this.ttsStatus.classList.add('inactive');
-                        if (buttonElement) {
-                            buttonElement.classList.remove('speaking');
-                            buttonElement.innerHTML = '🔊';
-                            buttonElement.title = 'Click to listen';
-                        }
-                    };
-                    
-                    this.synthesis.speak(utterance);
-                } else {
-                    this.ttsStatus.classList.add('inactive');
-                }
-            }
-
-            resetAllSpeakerButtons() {
-                const speakerButtons = document.querySelectorAll('.speaker-btn');
-                speakerButtons.forEach(btn => {
-                    btn.classList.remove('speaking');
-                    btn.innerHTML = '🔊';
-                    btn.title = 'Click to listen';
-                });
-            }
-
-            addUserMessage(message) {
-                const messageDiv = document.createElement('div');
-                messageDiv.className = 'message user';
-                messageDiv.textContent = message;
-                this.chatMessages.appendChild(messageDiv);
-                this.scrollToBottom();
-            }
-
-            addBotMessage(message) {
-                const messageDiv = document.createElement('div');
-                messageDiv.className = 'message bot';
-                
-                const contentDiv = document.createElement('div');
-                contentDiv.innerHTML = this.formatBotMessage(message);
-                
-                const speakerButton = document.createElement('button');
-                speakerButton.className = 'speaker-btn';
-                speakerButton.innerHTML = '🔊';
-                speakerButton.title = 'Click to listen';
-                speakerButton.onclick = () => this.speakResponse(message, speakerButton);
-                
-                messageDiv.appendChild(contentDiv);
-                messageDiv.appendChild(speakerButton);
-                
-                this.chatMessages.appendChild(messageDiv);
-                this.scrollToBottom();
-            }
-
-            addSystemMessage(message) {
-                const messageDiv = document.createElement('div');
-                messageDiv.className = 'message system';
-                messageDiv.textContent = message;
-                this.chatMessages.appendChild(messageDiv);
-                this.scrollToBottom();
-                
-                setTimeout(() => {
-                    if (messageDiv.parentNode) {
-                        messageDiv.remove();
-                    }
-                }, 3000);
-            }
-
-            addErrorMessage(message) {
-                const messageDiv = document.createElement('div');
-                messageDiv.className = 'error-message';
-                messageDiv.textContent = message;
-                this.chatMessages.appendChild(messageDiv);
-                this.scrollToBottom();
-            }
-
-            addTypingIndicator() {
-                const typingDiv = document.createElement('div');
-                typingDiv.className = 'message bot typing';
-                typingDiv.id = 'typingIndicator';
-                typingDiv.innerHTML = '<span>ChargebeeBot is thinking</span><div class="typing-dots"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
-                this.chatMessages.appendChild(typingDiv);
-                this.scrollToBottom();
-            }
-
-            removeTypingIndicator() {
-                const typingIndicator = document.getElementById('typingIndicator');
-                if (typingIndicator) {
-                    typingIndicator.remove();
-                }
-            }
-
-            formatBotMessage(message) {
-                let formatted = message
-                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                    .replace(/`(.*?)`/g, '<code style="background: var(--grey-50); padding: 2px 4px; border-radius: 4px;">$1</code>')
-                    .replace(/\n\n/g, '<br><br>')
-                    .replace(/\n- /g, '<br>• ')
-                    .replace(/\n\d+\. /g, '<br>1. ');
-
-                // First, handle markdown-style links [text](url) and convert them to HTML
-                formatted = formatted.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" class="chargebee-link">$1</a>');
-
-                // Protect existing anchor tags by temporarily replacing them
-                const existingLinks = [];
-                formatted = formatted.replace(/<a[^>]*href="[^"]*"[^>]*>.*?<\/a>/g, (match) => {
-                    const placeholder = `__EXISTING_LINK_${existingLinks.length}__`;
-                    existingLinks.push(match);
-                    return placeholder;
-                });
-
-                // Now safely replace bare URLs that aren't already in links
-                const linkReplacements = [
-                    {
-                        pattern: /https?:\/\/www\.chargebee\.com\/pricing\/?(?!\w)/g,
-                        replacement: '<a href="$&" target="_blank" class="chargebee-link">View Chargebee Pricing Plans</a>'
-                    },
-                    {
-                        pattern: /https?:\/\/www\.chargebee\.com\/schedule-a-demo\/?(?!\w)/g,
-                        replacement: '<a href="$&" target="_blank" class="chargebee-link">Schedule a Demo</a>'
-                    },
-                    {
-                        pattern: /https?:\/\/apidocs\.chargebee\.com\/docs\/api\/?(?!\w)/g,
-                        replacement: '<a href="$&" target="_blank" class="chargebee-link">API Documentation</a>'
-                    },
-                    {
-                        pattern: /https?:\/\/www\.chargebee\.com\/integrations\/?(?!\w)/g,
-                        replacement: '<a href="$&" target="_blank" class="chargebee-link">View Integrations</a>'
-                    },
-                    {
-                        pattern: /https?:\/\/www\.chargebee\.com\/support\/?(?!\w)/g,
-                        replacement: '<a href="$&" target="_blank" class="chargebee-link">Get Support</a>'
-                    },
-                    {
-                        pattern: /https?:\/\/api-explorer\.chargebee\.com\/?(?!\w)/g,
-                        replacement: '<a href="$&" target="_blank" class="chargebee-link">API Explorer</a>'
-                    },
-                    {
-                        pattern: /https?:\/\/status\.chargebee\.com\/?(?!\w)/g,
-                        replacement: '<a href="$&" target="_blank" class="chargebee-link">System Status</a>'
-                    },
-                    {
-                        pattern: /https?:\/\/release-notes\.chargebee\.com\/?(?!\w)/g,
-                        replacement: '<a href="$&" target="_blank" class="chargebee-link">Release Notes</a>'
-                    }
-                ];
-
-                // Apply specific link replacements only to bare URLs
-                linkReplacements.forEach(link => {
-                    formatted = formatted.replace(link.pattern, link.replacement);
-                });
-
-                // Handle remaining chargebee URLs that don't match specific patterns
-                formatted = formatted.replace(
-                    /https?:\/\/(?:[^.\s]*\.)?chargebee\.com(?:\/[^\s<"]*)?(?!\w)/g,
-                    '<a href="$&" target="_blank" class="chargebee-link">$&</a>'
-                );
-
-                // Restore the existing links
-                existingLinks.forEach((link, index) => {
-                    formatted = formatted.replace(`__EXISTING_LINK_${index}__`, link);
-                });
-
-                return formatted;
-            }
-
-            scrollToBottom() {
-                this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
-            }
-
-            updateStatus() {
-                this.aiStatus.classList.remove('inactive');
-                
-                if ('speechSynthesis' in window) {
-                    this.ttsStatus.classList.remove('inactive');
-                } else {
-                    this.ttsStatus.classList.add('inactive');
-                }
-
-                setInterval(() => {
-                    // Health checks
-                }, 30000);
-            }
-        }
-
-        function sendQuickMessage(message) {
-            const input = document.getElementById('messageInput');
-            input.value = message;
-            voiceAgent.sendMessage();
-        }
-
-        let voiceAgent;
-        window.addEventListener('load', () => {
-            voiceAgent = new ChargebeeBotVoiceAgent();
-            
-            setTimeout(() => {
-                document.querySelector('.header').style.animation = 'slideIn 0.6s ease';
-            }, 100);
-        });
-
-        if ('speechSynthesis' in window) {
-            speechSynthesis.onvoiceschanged = () => {
-                // Voices loaded
-            };
-        }
-    </script>
+    <!-- Third-party markdown renderer -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

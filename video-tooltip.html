@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feature Comparison Table with Video Tooltips</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .tooltip-enter {
+            opacity: 0;
+            transform: scale(0.8) translateY(10px);
+        }
+        .tooltip-enter-active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .tooltip-exit-active {
+            opacity: 0;
+            transform: scale(0.8) translateY(10px);
+            transition: all 0.2s ease-in-out;
+        }
+        .play-icon-pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .tooltip-arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+        }
+        .tooltip-arrow.left {
+            right: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-right: 8px solid #1f2937;
+        }
+        .tooltip-arrow.right {
+            left: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-left: 8px solid #1f2937;
+        }
+        .tooltip-arrow.top {
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 8px solid #1f2937;
+        }
+        .tooltip-arrow.bottom {
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid #1f2937;
+        }
+        .feature-row:hover {
+            background-color: #f8fafc;
+        }
+        .carousel-indicator {
+            flex: 1;
+            height: 3px;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .carousel-indicator.active {
+            background: rgba(255, 255, 255, 0.9);
+        }
+        .carousel-indicator:hover {
+            background: rgba(255, 255, 255, 0.7);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen py-8">
+    <div class="max-w-6xl mx-auto px-4">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Feature Comparison</h1>
+            <p class="text-xl text-gray-600">Compare our plans and see features in action</p>
+        </div>
+
+        <!-- Feature Comparison Table -->
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-800 text-white">
+                        <tr>
+                            <th class="px-6 py-4 text-left font-semibold">Feature</th>
+                            <th class="px-6 py-4 text-center font-semibold">Basic</th>
+                            <th class="px-6 py-4 text-center font-semibold">Pro</th>
+                            <th class="px-6 py-4 text-center font-semibold">Enterprise</th>
+                            <th class="px-6 py-4 text-center font-semibold">Demo</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <!-- Invoice Management -->
+                        <tr class="feature-row">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                                        <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm0 2h12v8H4V6z" clip-rule="evenodd"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-gray-900">Advanced Invoice Management</div>
+                                        <div class="text-sm text-gray-500">Create, customize, and track invoices</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Limited</span>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <button class="play-icon w-8 h-8 bg-blue-500 hover:bg-blue-600 rounded-full flex items-center justify-center text-white transition-colors play-icon-pulse" data-feature="invoice">
+                                    <svg class="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <!-- Payment Processing -->
+                        <tr class="feature-row">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                                        <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-gray-900">Payment Processing</div>
+                                        <div class="text-sm text-gray-500">Accept payments from multiple sources</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <svg class="w-5 h-5 text-red-500 mx-auto" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                </svg>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <button class="play-icon w-8 h-8 bg-green-500 hover:bg-green-600 rounded-full flex items-center justify-center text-white transition-colors play-icon-pulse" data-feature="payment">
+                                    <svg class="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <!-- Client Management -->
+                        <tr class="feature-row">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
+                                        <svg class="w-5 h-5 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-gray-900">Client Management System</div>
+                                        <div class="text-sm text-gray-500">Organize and track client relationships</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">Basic</span>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">Advanced</span>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <button class="play-icon w-8 h-8 bg-purple-500 hover:bg-purple-600 rounded-full flex items-center justify-center text-white transition-colors play-icon-pulse" data-feature="client">
+                                    <svg class="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <!-- Analytics -->
+                        <tr class="feature-row">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center mr-3">
+                                        <svg class="w-5 h-5 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-gray-900">Advanced Analytics</div>
+                                        <div class="text-sm text-gray-500">Detailed reports and insights</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <svg class="w-5 h-5 text-red-500 mx-auto" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                </svg>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">Basic</span>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <button class="play-icon w-8 h-8 bg-yellow-500 hover:bg-yellow-600 rounded-full flex items-center justify-center text-white transition-colors play-icon-pulse" data-feature="analytics">
+                                    <svg class="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <!-- Team Collaboration -->
+                        <tr class="feature-row">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center mr-3">
+                                        <svg class="w-5 h-5 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-gray-900">Team Collaboration</div>
+                                        <div class="text-sm text-gray-500">Work together seamlessly</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <svg class="w-5 h-5 text-red-500 mx-auto" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                </svg>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">3 Users</span>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">Unlimited</span>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <button class="play-icon w-8 h-8 bg-indigo-500 hover:bg-indigo-600 rounded-full flex items-center justify-center text-white transition-colors play-icon-pulse" data-feature="collaboration">
+                                    <svg class="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Tooltip -->
+    <div id="videoTooltip" class="fixed z-50 hidden tooltip-enter" style="pointer-events: none;">
+        <div class="bg-gray-800 rounded-xl overflow-hidden shadow-2xl w-80 relative">
+            <!-- Close button -->
+            <button id="closeTooltip" class="absolute top-3 right-3 z-20 w-6 h-6 bg-black bg-opacity-50 rounded-full flex items-center justify-center hover:bg-opacity-70 transition-colors" style="pointer-events: auto;">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+
+            <!-- Carousel indicators at top - full width -->
+            <div class="absolute top-3 left-3 right-3 z-10">
+                <div id="carouselIndicators" class="flex gap-1">
+                    <!-- Carousel indicators will be created dynamically -->
+                </div>
+            </div>
+
+            <!-- Video container -->
+            <div class="relative">
+                <video id="mainVideo" class="w-full h-56 object-cover bg-black" muted autoplay loop>
+                    <!-- Video source will be set dynamically -->
+                </video>
+                
+                <!-- Video title overlay -->
+                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-transparent to-transparent p-4">
+                    <p id="videoTitle" class="text-white text-sm font-medium">Feature Demo</p>
+                </div>
+            </div>
+
+            <!-- Video info and progress bar -->
+            <div class="p-4 bg-gray-800">
+                <h3 id="videoHeading" class="text-white font-semibold text-base mb-4">Feature Name</h3>
+                
+                <!-- Full-width progress bar at bottom -->
+                <div class="w-full">
+                    <div class="w-full h-1 bg-gray-600 rounded-full overflow-hidden">
+                        <div id="playbackProgress" class="h-full bg-gradient-to-r from-blue-400 to-purple-500 rounded-full transition-all duration-100 w-0"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tooltip arrow -->
+            <div id="tooltipArrow" class="tooltip-arrow"></div>
+        </div>
+    </div>
+
+    <script>
+        class VideoTooltipManager {
+            constructor() {
+                // DOM elements
+                this.tooltip = document.getElementById('videoTooltip');
+                this.closeButton = document.getElementById('closeTooltip');
+                this.mainVideo = document.getElementById('mainVideo');
+                this.carouselIndicators = document.getElementById('carouselIndicators');
+                this.playbackProgress = document.getElementById('playbackProgress');
+                this.tooltipArrow = document.getElementById('tooltipArrow');
+                this.videoTitle = document.getElementById('videoTitle');
+                this.videoHeading = document.getElementById('videoHeading');
+
+                // State
+                this.currentFeature = null;
+                this.currentStoryIndex = 0;
+                this.isOpen = false;
+                this.carouselDots = [];
+                this.hideTimeout = null;
+                this.progressInterval = null;
+
+                // Feature data with video URLs
+                this.features = {
+                    invoice: {
+                        name: "Advanced Invoice Management",
+                        stories: [
+                            {
+                                title: "Create Invoice",
+                                videoUrl: "video-for-reels.mp4"
+                            },
+                            {
+                                title: "Customize Design", 
+                                videoUrl: "video-for-reels.mp4"
+                            },
+                            {
+                                title: "Send & Track",
+                                videoUrl: "video-for-reels.mp4"
+                            }
+                        ]
+                    },
+                    payment: {
+                        name: "Payment Processing",
+                        stories: [
+                            {
+                                title: "Payment Gateway",
+                                videoUrl: "video-for-reels.mp4"
+                            },
+                            {
+                                title: "Multiple Methods",
+                                videoUrl: "video-for-reels.mp4"
+                            },
+                            {
+                                title: "Auto Reconciliation",
+                                videoUrl: "video-for-reels.mp4"
+                            }
+                        ]
+                    },
+                    client: {
+                        name: "Client Management System",
+                        stories: [
+                            {
+                                title: "Client Profiles",
+                                videoUrl: "video-for-reels.mp4"
+                            },
+                            {
+                                title: "Communication Hub",
+                                videoUrl: "video-for-reels.mp4"
+                            },
+                            {
+                                title: "Project History",
+                                videoUrl: "video-for-reels.mp4"
+                            }
+                        ]
+                    },
+                    analytics: {
+                        name: "Advanced Analytics",
+                        stories: [
+                            {
+                                title: "Revenue Analytics",
+                                videoUrl: "video-for-reels.mp4"
+                            },
+                            {
+                                title: "Client Insights",
+                                videoUrl: "video-for-reels.mp4"
+                            },
+                            {
+                                title: "Performance Metrics",
+                                videoUrl: "video-for-reels.mp4"
+                            }
+                        ]
+                    },
+                    collaboration: {
+                        name: "Team Collaboration",
+                        stories: [
+                            {
+                                title: "Team Workspace",
+                                videoUrl: "video-for-reels.mp4"
+                            },
+                            {
+                                title: "Real-time Updates",
+                                videoUrl: "video-for-reels.mp4"
+                            },
+                            {
+                                title: "Permission Control",
+                                videoUrl: "video-for-reels.mp4"
+                            }
+                        ]
+                    }
+                };
+
+                this.init();
+            }
+
+            init() {
+                // Add hover listeners to play icons
+                const playIcons = document.querySelectorAll('.play-icon');
+                playIcons.forEach(icon => {
+                    icon.addEventListener('mouseenter', (e) => this.showTooltip(e));
+                });
+
+                // Add mouse leave listeners to feature rows
+                const featureRows = document.querySelectorAll('.feature-row');
+                featureRows.forEach(row => {
+                    row.addEventListener('mouseleave', () => this.scheduleHide());
+                });
+
+                // Tooltip hover handling
+                this.tooltip.addEventListener('mouseenter', () => this.cancelHide());
+                this.tooltip.addEventListener('mouseleave', () => this.hideTooltip());
+
+                // Close button
+                this.closeButton.addEventListener('click', () => this.hideTooltip());
+
+                // Video events
+                this.mainVideo.addEventListener('ended', () => this.onVideoEnded());
+
+                // Keyboard support
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && this.isOpen) {
+                        this.hideTooltip();
+                    }
+                });
+            }
+
+            showTooltip(event) {
+                this.cancelHide();
+
+                const feature = event.target.getAttribute('data-feature');
+                if (!feature || !this.features[feature]) return;
+
+                this.currentFeature = feature;
+                this.currentStoryIndex = 0;
+
+                this.positionTooltip(event.target);
+                this.updateContent();
+                this.createCarouselIndicators();
+
+                if (!this.isOpen) {
+                    this.isOpen = true;
+                    this.tooltip.classList.remove('hidden');
+                    this.tooltip.style.pointerEvents = 'auto';
+
+                    setTimeout(() => {
+                        this.tooltip.classList.remove('tooltip-enter');
+                        this.tooltip.classList.add('tooltip-enter-active');
+                    }, 10);
+                }
+
+                this.startProgressTracking();
+            }
+
+            scheduleHide() {
+                this.hideTimeout = setTimeout(() => {
+                    this.hideTooltip();
+                }, 300);
+            }
+
+            cancelHide() {
+                if (this.hideTimeout) {
+                    clearTimeout(this.hideTimeout);
+                    this.hideTimeout = null;
+                }
+            }
+
+            hideTooltip() {
+                if (!this.isOpen) return;
+
+                this.isOpen = false;
+                this.stopProgressTracking();
+
+                this.tooltip.classList.remove('tooltip-enter-active');
+                this.tooltip.classList.add('tooltip-exit-active');
+
+                setTimeout(() => {
+                    this.tooltip.classList.add('hidden');
+                    this.tooltip.classList.remove('tooltip-exit-active');
+                    this.tooltip.classList.add('tooltip-enter');
+                    this.tooltip.style.pointerEvents = 'none';
+                    this.mainVideo.pause();
+                }, 200);
+            }
+
+            positionTooltip(triggerElement) {
+                const rect = triggerElement.getBoundingClientRect();
+                const viewport = {
+                    width: window.innerWidth,
+                    height: window.innerHeight
+                };
+
+                let left, top, arrowClass;
+
+                // Try positioning to the right first
+                if (rect.right + 320 + 20 <= viewport.width) {
+                    left = rect.right + 15;
+                    top = rect.top + (rect.height / 2) - 140;
+                    arrowClass = 'left';
+                } 
+                // Try positioning to the left
+                else if (rect.left - 320 - 20 >= 0) {
+                    left = rect.left - 320 - 15;
+                    top = rect.top + (rect.height / 2) - 140;
+                    arrowClass = 'right';
+                }
+                // Position above
+                else if (rect.top - 300 >= 0) {
+                    left = rect.left + (rect.width / 2) - 160;
+                    top = rect.top - 300 - 15;
+                    arrowClass = 'bottom';
+                }
+                // Position below as fallback
+                else {
+                    left = rect.left + (rect.width / 2) - 160;
+                    top = rect.bottom + 15;
+                    arrowClass = 'top';
+                }
+
+                // Ensure tooltip stays within viewport
+                left = Math.max(10, Math.min(left, viewport.width - 330));
+                top = Math.max(10, Math.min(top, viewport.height - 310));
+
+                this.tooltip.style.left = left + 'px';
+                this.tooltip.style.top = top + 'px';
+
+                // Update arrow
+                this.tooltipArrow.className = `tooltip-arrow ${arrowClass}`;
+            }
+
+            createCarouselIndicators() {
+                const feature = this.features[this.currentFeature];
+                this.carouselIndicators.innerHTML = '';
+                this.carouselDots = [];
+
+                feature.stories.forEach((_, index) => {
+                    const indicator = document.createElement('button');
+                    indicator.className = 'carousel-indicator';
+                    if (index === this.currentStoryIndex) {
+                        indicator.classList.add('active');
+                    }
+
+                    indicator.addEventListener('click', () => {
+                        this.jumpToStory(index);
+                    });
+
+                    this.carouselIndicators.appendChild(indicator);
+                    this.carouselDots.push(indicator);
+                });
+            }
+
+            jumpToStory(index) {
+                if (index !== this.currentStoryIndex && index >= 0 && index < this.features[this.currentFeature].stories.length) {
+                    this.currentStoryIndex = index;
+                    this.updateContent();
+                    this.updateCarouselIndicators();
+                }
+            }
+
+            updateCarouselIndicators() {
+                this.carouselDots.forEach((dot, index) => {
+                    if (index === this.currentStoryIndex) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
+
+            updateContent() {
+                const feature = this.features[this.currentFeature];
+                const story = feature.stories[this.currentStoryIndex];
+
+                this.videoHeading.textContent = feature.name;
+                this.videoTitle.textContent = story.title;
+
+                // Load the video
+                this.mainVideo.src = story.videoUrl;
+                this.mainVideo.load();
+
+                // Reset progress bar
+                this.playbackProgress.style.width = '0%';
+            }
+
+            startProgressTracking() {
+                this.stopProgressTracking();
+                this.progressInterval = setInterval(() => {
+                    this.updateProgress();
+                }, 100);
+            }
+
+            stopProgressTracking() {
+                if (this.progressInterval) {
+                    clearInterval(this.progressInterval);
+                    this.progressInterval = null;
+                }
+            }
+
+            updateProgress() {
+                if (!this.isOpen || !this.mainVideo || this.mainVideo.duration === 0) return;
+
+                const progress = (this.mainVideo.currentTime / this.mainVideo.duration) * 100;
+                this.playbackProgress.style.width = progress + '%';
+            }
+
+            onVideoEnded() {
+                const feature = this.features[this.currentFeature];
+                if (this.currentStoryIndex < feature.stories.length - 1) {
+                    // Move to next story
+                    this.currentStoryIndex++;
+                    this.updateContent();
+                    this.updateCarouselIndicators();
+                } else {
+                    // All stories completed, hide tooltip
+                    setTimeout(() => this.hideTooltip(), 500);
+                }
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new VideoTooltipManager();
+        });
+    </script>
+</body>
+</html>

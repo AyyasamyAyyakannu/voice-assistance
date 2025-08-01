@@ -1,0 +1,380 @@
+{
+    "en": {
+        "header": [
+            {
+                "name": "Starter",
+                "cta_text": "Get Started",
+                "cta_link": "https://www.chargebee.com/starter",
+                "description": "Perfect for small businesses and startups looking to manage subscriptions efficiently.",
+                "price": "$0/month"
+            },
+            {
+                "name": "Professional",
+                "cta_text": "Upgrade Now",
+                "cta_link": "https://www.chargebee.com/professional",
+                "description": "Ideal for growing businesses that need advanced billing features and analytics.",
+                "price": "$49/month"
+            },
+            {
+                "name": "Enterprise",
+                "cta_text": "Contact Sales",
+                "cta_link": "https://www.chargebee.com/enterprise",
+                "description": "Designed for large enterprises with complex billing needs and custom solutions.",
+                "price": "Contact Sales"
+            }
+        ],
+        "body": [
+            {
+                "title": "Features Heading",
+                "description": "Explore the features of ChargebeeBot",
+                "features": [
+                    {
+                        "name": "Subscription Management",
+                        "label": "Manage Subscriptions",
+                        "description": "Manage your subscriptions effortlessly with AI assistance.",
+                        "cta_text": "Learn More",
+                        "cta_link": "https://www.chargebee.com/docs/subscription-management",
+                        "image_url": "https://www.chargebee.com/images/subscription-management.png",
+                        "logo_list": [
+                            "https://www.chargebee.com/images/logo1.png",
+                            "https://www.chargebee.com/images/logo2.png",
+                            "https://www.chargebee.com/images/logo3.png"
+                        ],
+                        "video_url": "https://www.chargebee.com/videos/subscription-management.mp4",
+                        "additional_info": "This feature allows you to automate subscription renewals, cancellations, and modifications, ensuring a smooth customer experience.",
+                        "available": [ true, false, true ]
+                    },
+                    {
+                        "name": "Billing Automation",
+                        "label": "Automate Billing",
+                        "description": "Automate your billing processes with AI-driven insights.",
+                        "cta_text": "Learn More",
+                        "cta_link": "https://www.chargebee.com/docs/billing-automation",
+                        "image_url": "https://www.chargebee.com/images/billing-automation.png",
+                        "logo_list": [
+                            "https://www.chargebee.com/images/logo1.png",
+                            "https://www.chargebee.com/images/logo2.png",
+                            "https://www.chargebee.com/images/logo3.png"
+                        ],
+                        "video_url": "https://www.chargebee.com/videos/billing-automation.mp4",
+                        "additional_info": "This feature helps you streamline invoicing, payment processing, and revenue recognition, reducing manual errors.",
+                        "available": [ true, true, false ]
+                    },
+                    {
+                        "name": "Analytics and Reporting",
+                        "label": "Gain Insights",
+                        "description": "Gain insights into your business performance with advanced analytics.",
+                        "cta_text": "Learn More",
+                        "cta_link": "https://www.chargebee.com/docs/analytics-reporting",
+                        "image_url": "https://www.chargebee.com/images/analytics-reporting.png",
+                        "logo_list": [
+                            "https://www.chargebee.com/images/logo1.png",
+                            "https://www.chargebee.com/images/logo2.png",
+                            "https://www.chargebee.com/images/logo3.png"
+                        ],
+                        "video_url": "https://www.chargebee.com/videos/analytics-reporting.mp4",
+                        "additional_info": "This feature provides detailed reports on customer behavior, revenue trends, and financial health.",
+                        "available": [ false, true, true ]
+                    }
+                ]
+            },
+            {
+                "title": "Features Heading",
+                "description": "Explore the features of ChargebeeBot",
+                "features": [
+                    {
+                        "name": "Subscription Management",
+                        "label": "Manage Subscriptions",
+                        "description": "Manage your subscriptions effortlessly with AI assistance.",
+                        "cta_text": "Learn More",
+                        "cta_link": "https://www.chargebee.com/docs/subscription-management",
+                        "image_url": "https://www.chargebee.com/images/subscription-management.png",
+                        "logo_list": [
+                            "https://www.chargebee.com/images/logo1.png",
+                            "https://www.chargebee.com/images/logo2.png",
+                            "https://www.chargebee.com/images/logo3.png"
+                        ],
+                        "video_url": "https://www.chargebee.com/videos/subscription-management.mp4",
+                        "additional_info": "This feature allows you to automate subscription renewals, cancellations, and modifications, ensuring a smooth customer experience.",
+                        "available": [ true, false, true ]
+                    },
+                    {
+                        "name": "Billing Automation",
+                        "label": "Automate Billing",
+                        "description": "Automate your billing processes with AI-driven insights.",
+                        "cta_text": "Learn More",
+                        "cta_link": "https://www.chargebee.com/docs/billing-automation",
+                        "image_url": "https://www.chargebee.com/images/billing-automation.png",
+                        "logo_list": [
+                            "https://www.chargebee.com/images/logo1.png",
+                            "https://www.chargebee.com/images/logo2.png",
+                            "https://www.chargebee.com/images/logo3.png"
+                        ],
+                        "video_url": "https://www.chargebee.com/videos/billing-automation.mp4",
+                        "additional_info": "This feature helps you streamline invoicing, payment processing, and revenue recognition, reducing manual errors.",
+                        "available": [ true, true, false ]
+                    },
+                    {
+                        "name": "Analytics and Reporting",
+                        "label": "Gain Insights",
+                        "description": "Gain insights into your business performance with advanced analytics.",
+                        "cta_text": "Learn More",
+                        "cta_link": "https://www.chargebee.com/docs/analytics-reporting",
+                        "image_url": "https://www.chargebee.com/images/analytics-reporting.png",
+                        "logo_list": [
+                            "https://www.chargebee.com/images/logo1.png",
+                            "https://www.chargebee.com/images/logo2.png",
+                            "https://www.chargebee.com/images/logo3.png"
+                        ],
+                        "video_url": "https://www.chargebee.com/videos/analytics-reporting.mp4",
+                        "additional_info": "This feature provides detailed reports on customer behavior, revenue trends, and financial health.",
+                        "available": [ false, true, true ]
+                    }
+                ]
+            },
+            {
+                "title": "Features Heading",
+                "description": "Explore the features of ChargebeeBot",
+                "features": [
+                    {
+                        "name": "Subscription Management",
+                        "label": "Manage Subscriptions",
+                        "description": "Manage your subscriptions effortlessly with AI assistance.",
+                        "cta_text": "Learn More",
+                        "cta_link": "https://www.chargebee.com/docs/subscription-management",
+                        "image_url": "https://www.chargebee.com/images/subscription-management.png",
+                        "logo_list": [
+                            "https://www.chargebee.com/images/logo1.png",
+                            "https://www.chargebee.com/images/logo2.png",
+                            "https://www.chargebee.com/images/logo3.png"
+                        ],
+                        "video_url": "https://www.chargebee.com/videos/subscription-management.mp4",
+                        "additional_info": "This feature allows you to automate subscription renewals, cancellations, and modifications, ensuring a smooth customer experience.",
+                        "available": [ true, false, true ]
+                    },
+                    {
+                        "name": "Billing Automation",
+                        "label": "Automate Billing",
+                        "description": "Automate your billing processes with AI-driven insights.",
+                        "cta_text": "Learn More",
+                        "cta_link": "https://www.chargebee.com/docs/billing-automation",
+                        "image_url": "https://www.chargebee.com/images/billing-automation.png",
+                        "logo_list": [
+                            "https://www.chargebee.com/images/logo1.png",
+                            "https://www.chargebee.com/images/logo2.png",
+                            "https://www.chargebee.com/images/logo3.png"
+                        ],
+                        "video_url": "https://www.chargebee.com/videos/billing-automation.mp4",
+                        "additional_info": "This feature helps you streamline invoicing, payment processing, and revenue recognition, reducing manual errors.",
+                        "available": [ true, true, false ]
+                    },
+                    {
+                        "name": "Analytics and Reporting",
+                        "label": "Gain Insights",
+                        "description": "Gain insights into your business performance with advanced analytics.",
+                        "cta_text": "Learn More",
+                        "cta_link": "https://www.chargebee.com/docs/analytics-reporting",
+                        "image_url": "https://www.chargebee.com/images/analytics-reporting.png",
+                        "logo_list": [
+                            "https://www.chargebee.com/images/logo1.png",
+                            "https://www.chargebee.com/images/logo2.png",
+                            "https://www.chargebee.com/images/logo3.png"
+                        ],
+                        "video_url": "https://www.chargebee.com/videos/analytics-reporting.mp4",
+                        "additional_info": "This feature provides detailed reports on customer behavior, revenue trends, and financial health.",
+                        "available": [ false, true, true ]
+                    }
+                ]
+            }
+        ]
+    },
+    "fr": {
+        "header": [
+            {
+                "name": "Starter",
+                "cta_text": "Get Started",
+                "cta_link": "https://www.chargebee.com/starter",
+                "description": "Perfect for small businesses and startups looking to manage subscriptions efficiently.",
+                "price": "$0/month"
+            },
+            {
+                "name": "Professional",
+                "cta_text": "Upgrade Now",
+                "cta_link": "https://www.chargebee.com/professional",
+                "description": "Ideal for growing businesses that need advanced billing features and analytics.",
+                "price": "$49/month"
+            },
+            {
+                "name": "Enterprise",
+                "cta_text": "Contact Sales",
+                "cta_link": "https://www.chargebee.com/enterprise",
+                "description": "Designed for large enterprises with complex billing needs and custom solutions.",
+                "price": "Contact Sales"
+            }
+        ],
+        "body": [
+            {
+                "title": "Features Heading",
+                "description": "Explore the features of ChargebeeBot",
+                "features": [
+                    {
+                        "name": "Subscription Management",
+                        "label": "Manage Subscriptions",
+                        "description": "Manage your subscriptions effortlessly with AI assistance.",
+                        "cta_text": "Learn More",
+                        "cta_link": "https://www.chargebee.com/docs/subscription-management",
+                        "image_url": "https://www.chargebee.com/images/subscription-management.png",
+                        "logo_list": [
+                            "https://www.chargebee.com/images/logo1.png",
+                            "https://www.chargebee.com/images/logo2.png",
+                            "https://www.chargebee.com/images/logo3.png"
+                        ],
+                        "video_url": "https://www.chargebee.com/videos/subscription-management.mp4",
+                        "additional_info": "This feature allows you to automate subscription renewals, cancellations, and modifications, ensuring a smooth customer experience.",
+                        "available": [ true, false, true ]
+                    },
+                    {
+                        "name": "Billing Automation",
+                        "label": "Automate Billing",
+                        "description": "Automate your billing processes with AI-driven insights.",
+                        "cta_text": "Learn More",
+                        "cta_link": "https://www.chargebee.com/docs/billing-automation",
+                        "image_url": "https://www.chargebee.com/images/billing-automation.png",
+                        "logo_list": [
+                            "https://www.chargebee.com/images/logo1.png",
+                            "https://www.chargebee.com/images/logo2.png",
+                            "https://www.chargebee.com/images/logo3.png"
+                        ],
+                        "video_url": "https://www.chargebee.com/videos/billing-automation.mp4",
+                        "additional_info": "This feature helps you streamline invoicing, payment processing, and revenue recognition, reducing manual errors.",
+                        "available": [ true, true, false ]
+                    },
+                    {
+                        "name": "Analytics and Reporting",
+                        "label": "Gain Insights",
+                        "description": "Gain insights into your business performance with advanced analytics.",
+                        "cta_text": "Learn More",
+                        "cta_link": "https://www.chargebee.com/docs/analytics-reporting",
+                        "image_url": "https://www.chargebee.com/images/analytics-reporting.png",
+                        "logo_list": [
+                            "https://www.chargebee.com/images/logo1.png",
+                            "https://www.chargebee.com/images/logo2.png",
+                            "https://www.chargebee.com/images/logo3.png"
+                        ],
+                        "video_url": "https://www.chargebee.com/videos/analytics-reporting.mp4",
+                        "additional_info": "This feature provides detailed reports on customer behavior, revenue trends, and financial health.",
+                        "available": [ false, true, true ]
+                    }
+                ]
+            },
+            {
+                "title": "Features Heading",
+                "description": "Explore the features of ChargebeeBot",
+                "features": [
+                    {
+                        "name": "Subscription Management",
+                        "label": "Manage Subscriptions",
+                        "description": "Manage your subscriptions effortlessly with AI assistance.",
+                        "cta_text": "Learn More",
+                        "cta_link": "https://www.chargebee.com/docs/subscription-management",
+                        "image_url": "https://www.chargebee.com/images/subscription-management.png",
+                        "logo_list": [
+                            "https://www.chargebee.com/images/logo1.png",
+                            "https://www.chargebee.com/images/logo2.png",
+                            "https://www.chargebee.com/images/logo3.png"
+                        ],
+                        "video_url": "https://www.chargebee.com/videos/subscription-management.mp4",
+                        "additional_info": "This feature allows you to automate subscription renewals, cancellations, and modifications, ensuring a smooth customer experience.",
+                        "available": [ true, false, true ]
+                    },
+                    {
+                        "name": "Billing Automation",
+                        "label": "Automate Billing",
+                        "description": "Automate your billing processes with AI-driven insights.",
+                        "cta_text": "Learn More",
+                        "cta_link": "https://www.chargebee.com/docs/billing-automation",
+                        "image_url": "https://www.chargebee.com/images/billing-automation.png",
+                        "logo_list": [
+                            "https://www.chargebee.com/images/logo1.png",
+                            "https://www.chargebee.com/images/logo2.png",
+                            "https://www.chargebee.com/images/logo3.png"
+                        ],
+                        "video_url": "https://www.chargebee.com/videos/billing-automation.mp4",
+                        "additional_info": "This feature helps you streamline invoicing, payment processing, and revenue recognition, reducing manual errors.",
+                        "available": [ true, true, false ]
+                    },
+                    {
+                        "name": "Analytics and Reporting",
+                        "label": "Gain Insights",
+                        "description": "Gain insights into your business performance with advanced analytics.",
+                        "cta_text": "Learn More",
+                        "cta_link": "https://www.chargebee.com/docs/analytics-reporting",
+                        "image_url": "https://www.chargebee.com/images/analytics-reporting.png",
+                        "logo_list": [
+                            "https://www.chargebee.com/images/logo1.png",
+                            "https://www.chargebee.com/images/logo2.png",
+                            "https://www.chargebee.com/images/logo3.png"
+                        ],
+                        "video_url": "https://www.chargebee.com/videos/analytics-reporting.mp4",
+                        "additional_info": "This feature provides detailed reports on customer behavior, revenue trends, and financial health.",
+                        "available": [ false, true, true ]
+                    }
+                ]
+            },
+            {
+                "title": "Features Heading",
+                "description": "Explore the features of ChargebeeBot",
+                "features": [
+                    {
+                        "name": "Subscription Management",
+                        "label": "Manage Subscriptions",
+                        "description": "Manage your subscriptions effortlessly with AI assistance.",
+                        "cta_text": "Learn More",
+                        "cta_link": "https://www.chargebee.com/docs/subscription-management",
+                        "image_url": "https://www.chargebee.com/images/subscription-management.png",
+                        "logo_list": [
+                            "https://www.chargebee.com/images/logo1.png",
+                            "https://www.chargebee.com/images/logo2.png",
+                            "https://www.chargebee.com/images/logo3.png"
+                        ],
+                        "video_url": "https://www.chargebee.com/videos/subscription-management.mp4",
+                        "additional_info": "This feature allows you to automate subscription renewals, cancellations, and modifications, ensuring a smooth customer experience.",
+                        "available": [ true, false, true ]
+                    },
+                    {
+                        "name": "Billing Automation",
+                        "label": "Automate Billing",
+                        "description": "Automate your billing processes with AI-driven insights.",
+                        "cta_text": "Learn More",
+                        "cta_link": "https://www.chargebee.com/docs/billing-automation",
+                        "image_url": "https://www.chargebee.com/images/billing-automation.png",
+                        "logo_list": [
+                            "https://www.chargebee.com/images/logo1.png",
+                            "https://www.chargebee.com/images/logo2.png",
+                            "https://www.chargebee.com/images/logo3.png"
+                        ],
+                        "video_url": "https://www.chargebee.com/videos/billing-automation.mp4",
+                        "additional_info": "This feature helps you streamline invoicing, payment processing, and revenue recognition, reducing manual errors.",
+                        "available": [ true, true, false ]
+                    },
+                    {
+                        "name": "Analytics and Reporting",
+                        "label": "Gain Insights",
+                        "description": "Gain insights into your business performance with advanced analytics.",
+                        "cta_text": "Learn More",
+                        "cta_link": "https://www.chargebee.com/docs/analytics-reporting",
+                        "image_url": "https://www.chargebee.com/images/analytics-reporting.png",
+                        "logo_list": [
+                            "https://www.chargebee.com/images/logo1.png",
+                            "https://www.chargebee.com/images/logo2.png",
+                            "https://www.chargebee.com/images/logo3.png"
+                        ],
+                        "video_url": "https://www.chargebee.com/videos/analytics-reporting.mp4",
+                        "additional_info": "This feature provides detailed reports on customer behavior, revenue trends, and financial health.",
+                        "available": [ false, true, true ]
+                    }
+                ]
+            }
+        ]
+    }
+}

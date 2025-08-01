@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feature Comparison Table with Video Tooltips</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .tooltip-enter {
+            opacity: 0;
+            transform: scale(0.8) translateY(10px);
+        }
+        .tooltip-enter-active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .tooltip-exit-active {
+            opacity: 0;
+            transform: scale(0.8) translateY(10px);
+            transition: all 0.2s ease-in-out;
+        }
+        .play-icon-pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .tooltip-arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+        }
+        .tooltip-arrow.left {
+            right: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-right: 8px solid #1f2937;
+        }
+        .tooltip-arrow.right {
+            left: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-left: 8px solid #1f2937;
+        }
+        .tooltip-arrow.top {
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 8px solid #1f2937;
+        }
+        .tooltip-arrow.bottom {
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid #1f2937;
+        }
+        .feature-row:hover {
+            background-color: #f8fafc;
+        }
+        .feature-row.highlight {
+            background-color: #f0f9ff;
+        }
+        .carousel-indicator {
+            flex: 1;
+            height: 3px;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .carousel-indicator.active {
+            background: rgba(255, 255, 255, 0.9);
+        }
+        .carousel-indicator:hover {
+            background: rgba(255, 255, 255, 0.7);
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen py-8">
+    <div class="max-w-7xl mx-auto px-6">
+        <!-- Feature Comparison Section -->
+        <div class="bg-white">
+            <!-- Section Header -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-semibold text-red-500 mb-8">Invoicing and Subscription Management</h2>
+            </div>
+
+            <!-- Features List -->
+            <div class="space-y-0">
+                <!-- Offline invoicing -->
+                <div class="feature-row flex items-center justify-between py-4 border-b border-gray-100">
+                    <div class="flex items-center">
+                        <span class="text-gray-800 font-medium">Offline invoicing</span>
+                    </div>
+                    <div class="flex items-center space-x-16">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calendar billing -->
+                <div class="feature-row flex items-center justify-between py-4 border-b border-gray-100">
+                    <div class="flex items-center">
+                        <span class="text-gray-800 font-medium">Calendar billing</span>
+                    </div>
+                    <div class="flex items-center space-x-16">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Usage-based billing -->
+                <div class="feature-row flex items-center justify-between py-4 border-b border-gray-100">
+                    <div class="flex items-center">
+                        <span class="text-gray-800 font-medium">Usage-based (metered) billing</span>
+                    </div>
+                    <div class="flex items-center space-x-16">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advance invoices (highlighted with play icon) -->
+                <div class="feature-row highlight flex items-center justify-between py-4 border-b border-gray-100">
+                    <div class="flex items-center">
+                        <button class="w-5 h-5 mr-3 rounded-full border border-gray-400 flex items-center justify-center hover:bg-gray-50 transition-colors">
+                            <svg class="w-3 h-3 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+                        <span class="text-gray-800 font-medium">Advance invoices</span>
+                    </div>
+                    <div class="flex items-center space-x-16">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                                <circle cx="10" cy="10" r="10" fill="#e5e7eb"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <button class="play-icon w-6 h-6 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center text-white transition-colors play-icon-pulse" data-feature="advance-invoices">
+                                <svg class="w-3 h-3 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin console for subscription management -->
+                <div class="feature-row flex items-center justify-between py-4 border-b border-gray-100">
+                    <div class="flex items-center">
+                        <span class="text-gray-800 font-medium">Admin console for subscription management</span>
+                    </div>
+                    <div class="flex items-center space-x-16">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customer portal -->
+                <div class="feature-row flex items-center justify-between py-4 border-b border-gray-100">
+                    <div class="flex items-center">
+                        <span class="text-gray-800 font-medium">Customer portal</span>
+                    </div>
+                    <div class="flex items-center space-x-16">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Credit notes -->
+                <div class="feature-row flex items-center justify-between py-4 border-b border-gray-100">
+                    <div class="flex items-center">
+                        <span class="text-gray-800 font-medium">Credit notes</span>
+                    </div>
+                    <div class="flex items-center space-x-16">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coupons and discounts -->
+                <div class="feature-row flex items-center justify-between py-4 border-b border-gray-100">
+                    <div class="flex items-center">
+                        <span class="text-gray-800 font-medium">Coupons and discounts</span>
+                    </div>
+                    <div class="flex items-center space-x-16">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gift subscriptions -->
+                <div class="feature-row flex items-center justify-between py-4 border-b border-gray-100">
+                    <div class="flex items-center">
+                        <span class="text-gray-800 font-medium">Gift subscriptions</span>
+                    </div>
+                    <div class="flex items-center space-x-16">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                                <circle cx="10" cy="10" r="10" fill="#e5e7eb"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Excess & partial payments with play icon -->
+                <div class="feature-row flex items-center justify-between py-4 border-b border-gray-100">
+                    <div class="flex items-center">
+                        <button class="w-5 h-5 mr-3 rounded-full border border-gray-400 flex items-center justify-center hover:bg-gray-50 transition-colors">
+                            <svg class="w-3 h-3 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+                        <span class="text-gray-800 font-medium">Excess & partial payments and unbilled charges</span>
+                    </div>
+                    <div class="flex items-center space-x-16">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <button class="play-icon w-6 h-6 bg-gray-800 hover:bg-gray-700 rounded-full flex items-center justify-center text-white transition-colors play-icon-pulse" data-feature="excess-payments">
+                                <svg class="w-3 h-3 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Consolidated invoicing -->
+                <div class="feature-row flex items-center justify-between py-4 border-b border-gray-100">
+                    <div class="flex items-center">
+                        <span class="text-gray-800 font-medium">Consolidated invoicing</span>
+                    </div>
+                    <div class="flex items-center space-x-16">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                                <circle cx="10" cy="10" r="10" fill="#e5e7eb"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pricing models with play icon -->
+                <div class="feature-row flex items-center justify-between py-4 border-b border-gray-100">
+                    <div class="flex items-center">
+                        <button class="w-5 h-5 mr-3 rounded-full border border-gray-400 flex items-center justify-center hover:bg-gray-50 transition-colors">
+                            <svg class="w-3 h-3 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+                        <span class="text-gray-800 font-medium">Pricing models</span>
+                    </div>
+                    <div class="flex items-center space-x-16">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <button class="play-icon w-6 h-6 bg-gray-800 hover:bg-gray-700 rounded-full flex items-center justify-center text-white transition-colors play-icon-pulse" data-feature="pricing-models">
+                                <svg class="w-3 h-3 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Multi-decimal support with play icon -->
+                <div class="feature-row flex items-center justify-between py-4 border-b border-gray-100">
+                    <div class="flex items-center">
+                        <button class="w-5 h-5 mr-3 rounded-full border border-gray-400 flex items-center justify-center hover:bg-gray-50 transition-colors">
+                            <svg class="w-3 h-3 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+                        <span class="text-gray-800 font-medium">Multi-decimal support</span>
+                    </div>
+                    <div class="flex items-center space-x-16">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <button class="play-icon w-6 h-6 bg-gray-800 hover:bg-gray-700 rounded-full flex items-center justify-center text-white transition-colors play-icon-pulse" data-feature="multi-decimal">
+                                <svg class="w-3 h-3 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- eInvoicing with play icon -->
+                <div class="feature-row flex items-center justify-between py-4 border-b border-gray-100">
+                    <div class="flex items-center">
+                        <button class="w-5 h-5 mr-3 rounded-full border border-gray-400 flex items-center justify-center hover:bg-gray-50 transition-colors">
+                            <svg class="w-3 h-3 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+                        <span class="text-gray-800 font-medium">eInvoicing</span>
+                        <span class="ml-2 px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded">PAID ADD-ON</span>
+                    </div>
+                    <div class="flex items-center space-x-16">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <button class="play-icon w-6 h-6 bg-gray-800 hover:bg-gray-700 rounded-full flex items-center justify-center text-white transition-colors play-icon-pulse" data-feature="einvoicing">
+                                <svg class="w-3 h-3 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- In-app purchase management with play icon -->
+                <div class="feature-row flex items-center justify-between py-4">
+                    <div class="flex items-center">
+                        <button class="w-5 h-5 mr-3 rounded-full border border-gray-400 flex items-center justify-center hover:bg-gray-50 transition-colors">
+                            <svg class="w-3 h-3 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+                        <span class="text-gray-800 font-medium">In-app purchase management</span>
+                    </div>
+                    <div class="flex items-center space-x-16">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <button class="play-icon w-6 h-6 bg-gray-800 hover:bg-gray-700 rounded-full flex items-center justify-center text-white transition-colors play-icon-pulse" data-feature="in-app-purchase">
+                                <svg class="w-3 h-3 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Tooltip -->
+    <div id="videoTooltip" class="fixed z-50 hidden tooltip-enter" style="pointer-events: none;">
+        <div class="bg-gray-800 rounded-xl overflow-hidden shadow-2xl w-80 relative">
+            <!-- Close button -->
+            <button id="closeTooltip" class="absolute top-3 right-3 z-20 w-6 h-6 bg-black bg-opacity-50 rounded-full flex items-center justify-center hover:bg-opacity-70 transition-colors" style="pointer-events: auto;">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+
+            <!-- Carousel indicators at top - full width -->
+            <div class="absolute top-3 left-3 right-3 z-10">
+                <div id="carouselIndicators" class="flex gap-1">
+                    <!-- Carousel indicators will be created dynamically -->
+                </div>
+            </div>
+
+            <!-- Video container -->
+            <div class="relative">
+                <video id="mainVideo" class="w-full h-56 object-cover bg-black" muted autoplay loop>
+                    <!-- Video source will be set dynamically -->
+                </video>
+                
+                <!-- Video title overlay -->
+                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-transparent to-transparent p-4">
+                    <p id="videoTitle" class="text-white text-sm font-medium">Feature Demo</p>
+                </div>
+            </div>
+
+            <!-- Video info and progress bar -->
+            <div class="p-4 bg-gray-800">
+                <h3 id="videoHeading" class="text-white font-semibold text-base mb-4">Feature Name</h3>
+                
+                <!-- Full-width progress bar at bottom -->
+                <div class="w-full">
+                    <div class="w-full h-1 bg-gray-600 rounded-full overflow-hidden">
+                        <div id="playbackProgress" class="h-full bg-gradient-to-r from-blue-400 to-purple-500 rounded-full transition-all duration-100 w-0"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tooltip arrow -->
+            <div id="tooltipArrow" class="tooltip-arrow"></div>
+        </div>
+    </div>
+
+    <script>
+        class VideoTooltipManager {
+            constructor() {
+                // DOM elements
+                this.tooltip = document.getElementById('videoTooltip');
+                this.closeButton = document.getElementById('closeTooltip');
+                this.mainVideo = document.getElementById('mainVideo');
+                this.carouselIndicators = document.getElementById('carouselIndicators');
+                this.playbackProgress = document.getElementById('playbackProgress');
+                this.tooltipArrow = document.getElementById('tooltipArrow');
+                this.videoTitle = document.getElementById('videoTitle');
+                this.videoHeading = document.getElementById('videoHeading');
+
+                // State
+                this.currentFeature = null;
+                this.currentStoryIndex = 0;
+                this.isOpen = false;
+                this.carouselDots = [];
+                this.hideTimeout = null;
+                this.progressInterval = null;
+
+                // Feature data with video URLs
+                this.features = {
+                    'advance-invoices': {
+                        name: "Advance Invoices",
+                        stories: [
+                            {
+                                title: "Create Advance Invoice",
+                                videoUrl: "https://content.clipchamp.com/content-repo/content/previews/cc_t55dfd7e8.mp4"
+                            },
+                            {
+                                title: "Configure Payment Terms", 
+                                videoUrl: "https://content.clipchamp.com/content-repo/content/previews/cc_t29fd6c40.mp4?1710893782492"
+                            },
+                            {
+                                title: "Track Payment Status",
+                                videoUrl: "https://content.clipchamp.com/content-repo/content/previews/cc_t55dfd7e8.mp4"
+                            }
+                        ]
+                    },
+                    'excess-payments': {
+                        name: "Excess & Partial Payments",
+                        stories: [
+                            {
+                                title: "Handle Overpayments",
+                                videoUrl: "https://content.clipchamp.com/content-repo/content/previews/cc_t29fd6c40.mp4?1710893782492"
+                            },
+                            {
+                                title: "Partial Payment Processing",
+                                videoUrl: "https://content.clipchamp.com/content-repo/content/previews/cc_t55dfd7e8.mp4"
+                            },
+                            {
+                                title: "Unbilled Charges Management",
+                                videoUrl: "https://content.clipchamp.com/content-repo/content/previews/cc_t29fd6c40.mp4?1710893782492"
+                            }
+                        ]
+                    },
+                    'pricing-models': {
+                        name: "Pricing Models",
+                        stories: [
+                            {
+                                title: "Subscription Pricing",
+                                videoUrl: "https://content.clipchamp.com/content-repo/content/previews/cc_t55dfd7e8.mp4"
+                            },
+                            {
+                                title: "Tiered Pricing Setup",
+                                videoUrl: "https://content.clipchamp.com/content-repo/content/previews/cc_t29fd6c40.mp4?1710893782492"
+                            },
+                            {
+                                title: "Usage-Based Pricing",
+                                videoUrl: "https://content.clipchamp.com/content-repo/content/previews/cc_t55dfd7e8.mp4"
+                            }
+                        ]
+                    },
+                    'multi-decimal': {
+                        name: "Multi-Decimal Support",
+                        stories: [
+                            {
+                                title: "Currency Precision",
+                                videoUrl: "https://content.clipchamp.com/content-repo/content/previews/cc_t29fd6c40.mp4?1710893782492"
+                            },
+                            {
+                                title: "Decimal Configuration",
+                                videoUrl: "https://content.clipchamp.com/content-repo/content/previews/cc_t55dfd7e8.mp4"
+                            }
+                        ]
+                    },
+                    'einvoicing': {
+                        name: "eInvoicing",
+                        stories: [
+                            {
+                                title: "Electronic Invoice Generation",
+                                videoUrl: "https://content.clipchamp.com/content-repo/content/previews/cc_t29fd6c40.mp4?1710893782492"
+                            },
+                            {
+                                title: "Compliance Management",
+                                videoUrl: "https://content.clipchamp.com/content-repo/content/previews/cc_t55dfd7e8.mp4"
+                            },
+                            {
+                                title: "Digital Signatures",
+                                videoUrl: "https://content.clipchamp.com/content-repo/content/previews/cc_t29fd6c40.mp4?1710893782492"
+                            }
+                        ]
+                    },
+                    'in-app-purchase': {
+                        name: "In-App Purchase Management",
+                        stories: [
+                            {
+                                title: "Mobile App Integration",
+                                videoUrl: "https://content.clipchamp.com/content-repo/content/previews/cc_t55dfd7e8.mp4"
+                            },
+                            {
+                                title: "Purchase Validation",
+                                videoUrl: "https://content.clipchamp.com/content-repo/content/previews/cc_t29fd6c40.mp4?1710893782492"
+                            }
+                        ]
+                    }
+                };
+
+                this.init();
+            }
+
+            init() {
+                // Add hover listeners to play icons
+                const playIcons = document.querySelectorAll('.play-icon');
+                playIcons.forEach(icon => {
+                    icon.addEventListener('mouseenter', (e) => this.showTooltip(e));
+                });
+
+                // Add mouse leave listeners to feature rows
+                const featureRows = document.querySelectorAll('.feature-row');
+                featureRows.forEach(row => {
+                    row.addEventListener('mouseleave', () => this.scheduleHide());
+                });
+
+                // Tooltip hover handling
+                this.tooltip.addEventListener('mouseenter', () => this.cancelHide());
+                this.tooltip.addEventListener('mouseleave', () => this.hideTooltip());
+
+                // Close button
+                this.closeButton.addEventListener('click', () => this.hideTooltip());
+
+                // Video events
+                this.mainVideo.addEventListener('ended', () => this.onVideoEnded());
+
+                // Keyboard support
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && this.isOpen) {
+                        this.hideTooltip();
+                    }
+                });
+            }
+
+            showTooltip(event) {
+                this.cancelHide();
+
+                const feature = event.target.getAttribute('data-feature');
+                if (!feature || !this.features[feature]) return;
+
+                this.currentFeature = feature;
+                this.currentStoryIndex = 0;
+
+                this.positionTooltip(event.target);
+                this.updateContent();
+                this.createCarouselIndicators();
+
+                if (!this.isOpen) {
+                    this.isOpen = true;
+                    this.tooltip.classList.remove('hidden');
+                    this.tooltip.style.pointerEvents = 'auto';
+
+                    setTimeout(() => {
+                        this.tooltip.classList.remove('tooltip-enter');
+                        this.tooltip.classList.add('tooltip-enter-active');
+                    }, 10);
+                }
+
+                this.startProgressTracking();
+            }
+
+            scheduleHide() {
+                this.hideTimeout = setTimeout(() => {
+                    this.hideTooltip();
+                }, 300);
+            }
+
+            cancelHide() {
+                if (this.hideTimeout) {
+                    clearTimeout(this.hideTimeout);
+                    this.hideTimeout = null;
+                }
+            }
+
+            hideTooltip() {
+                if (!this.isOpen) return;
+
+                this.isOpen = false;
+                this.stopProgressTracking();
+
+                this.tooltip.classList.remove('tooltip-enter-active');
+                this.tooltip.classList.add('tooltip-exit-active');
+
+                setTimeout(() => {
+                    this.tooltip.classList.add('hidden');
+                    this.tooltip.classList.remove('tooltip-exit-active');
+                    this.tooltip.classList.add('tooltip-enter');
+                    this.tooltip.style.pointerEvents = 'none';
+                    this.mainVideo.pause();
+                }, 200);
+            }
+
+            positionTooltip(triggerElement) {
+                const rect = triggerElement.getBoundingClientRect();
+                const viewport = {
+                    width: window.innerWidth,
+                    height: window.innerHeight
+                };
+
+                let left, top, arrowClass;
+
+                // Try positioning to the right first
+                if (rect.right + 320 + 20 <= viewport.width) {
+                    left = rect.right + 15;
+                    top = rect.top + (rect.height / 2) - 140;
+                    arrowClass = 'left';
+                } 
+                // Try positioning to the left
+                else if (rect.left - 320 - 20 >= 0) {
+                    left = rect.left - 320 - 15;
+                    top = rect.top + (rect.height / 2) - 140;
+                    arrowClass = 'right';
+                }
+                // Position above
+                else if (rect.top - 300 >= 0) {
+                    left = rect.left + (rect.width / 2) - 160;
+                    top = rect.top - 300 - 15;
+                    arrowClass = 'bottom';
+                }
+                // Position below as fallback
+                else {
+                    left = rect.left + (rect.width / 2) - 160;
+                    top = rect.bottom + 15;
+                    arrowClass = 'top';
+                }
+
+                // Ensure tooltip stays within viewport
+                left = Math.max(10, Math.min(left, viewport.width - 330));
+                top = Math.max(10, Math.min(top, viewport.height - 310));
+
+                this.tooltip.style.left = left + 'px';
+                this.tooltip.style.top = top + 'px';
+
+                // Update arrow
+                this.tooltipArrow.className = `tooltip-arrow ${arrowClass}`;
+            }
+
+            createCarouselIndicators() {
+                const feature = this.features[this.currentFeature];
+                this.carouselIndicators.innerHTML = '';
+                this.carouselDots = [];
+
+                feature.stories.forEach((_, index) => {
+                    const indicator = document.createElement('button');
+                    indicator.className = 'carousel-indicator';
+                    if (index === this.currentStoryIndex) {
+                        indicator.classList.add('active');
+                    }
+
+                    indicator.addEventListener('click', () => {
+                        this.jumpToStory(index);
+                    });
+
+                    this.carouselIndicators.appendChild(indicator);
+                    this.carouselDots.push(indicator);
+                });
+            }
+
+            jumpToStory(index) {
+                if (index !== this.currentStoryIndex && index >= 0 && index < this.features[this.currentFeature].stories.length) {
+                    this.currentStoryIndex = index;
+                    this.updateContent();
+                    this.updateCarouselIndicators();
+                }
+            }
+
+            updateCarouselIndicators() {
+                this.carouselDots.forEach((dot, index) => {
+                    if (index === this.currentStoryIndex) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
+
+            updateContent() {
+                const feature = this.features[this.currentFeature];
+                const story = feature.stories[this.currentStoryIndex];
+
+                this.videoHeading.textContent = feature.name;
+                this.videoTitle.textContent = story.title;
+
+                // Load the video
+                this.mainVideo.src = story.videoUrl;
+                this.mainVideo.load();
+
+                // Reset progress bar
+                this.playbackProgress.style.width = '0%';
+            }
+
+            startProgressTracking() {
+                this.stopProgressTracking();
+                this.progressInterval = setInterval(() => {
+                    this.updateProgress();
+                }, 100);
+            }
+
+            stopProgressTracking() {
+                if (this.progressInterval) {
+                    clearInterval(this.progressInterval);
+                    this.progressInterval = null;
+                }
+            }
+
+            updateProgress() {
+                if (!this.isOpen || !this.mainVideo || this.mainVideo.duration === 0) return;
+
+                const progress = (this.mainVideo.currentTime / this.mainVideo.duration) * 100;
+                this.playbackProgress.style.width = progress + '%';
+            }
+
+            onVideoEnded() {
+                const feature = this.features[this.currentFeature];
+                if (this.currentStoryIndex < feature.stories.length - 1) {
+                    // Move to next story
+                    this.currentStoryIndex++;
+                    this.updateContent();
+                    this.updateCarouselIndicators();
+                } else {
+                    // All stories completed, hide tooltip
+                    setTimeout(() => this.hideTooltip(), 500);
+                }
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new VideoTooltipManager();
+        });
+    </script>
+</body>
+</html>

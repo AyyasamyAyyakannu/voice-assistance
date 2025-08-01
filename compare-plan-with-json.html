@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feature Comparison with Video Tooltips</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Root variables for consistent theming - Using only provided colors */
+        :root {
+            /* Provided color palette */
+            --orange-500: #FF3300;
+            --orange-400: #FF523B;
+            --blue-900: #012A38;
+            --blue-800: #4F6169;
+            --blue-100: #92A1A8;
+            --blue-50: #D3D9DC;
+            --grey-50: #EFEFEF;
+            --white: #FFFFFF;
+            --lime-500: #BFF90B;
+            --bone-50: #E0DBC6;
+            --opal-100: #A2C1C4;
+            --transparent: transparent;
+            
+            /* Semantic color assignments using only provided colors */
+            --primary-color: var(--orange-500);
+            --primary-hover: var(--orange-400);
+            --success-color: var(--blue-900);
+            --warning-color: var(--orange-400);
+            --danger-color: var(--orange-500);
+            --accent-lime: var(--lime-500);
+            
+            /* Gray scale using provided colors */
+            --gray-50: var(--grey-50);
+            --gray-100: var(--bone-50);
+            --gray-200: var(--blue-50);
+            --gray-300: var(--opal-100);
+            --gray-400: var(--blue-100);
+            --gray-500: var(--blue-800);
+            --gray-600: var(--blue-900);
+            --gray-700: var(--blue-900);
+            --gray-800: var(--blue-900);
+            --gray-900: var(--blue-900);
+            
+            /* Design tokens - reduced for compactness */
+            --border-radius: 8px;
+            --border-radius-lg: 12px;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 2px 4px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 4px 8px -2px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 8px 16px -4px rgb(0 0 0 / 0.1);
+            --transition: all 0.2s ease;
+        }
+
+        /* Typography enhancements */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--gray-900);
+        }
+
+        /* Enhanced header styling - more compact */
+        .plan-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--border-radius-lg);
+            padding: 1.25rem;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .plan-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-lime));
+            transform: scaleX(0);
+            transition: transform 0.2s ease;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-color);
+        }
+
+        .plan-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .plan-card.featured {
+            border-color: var(--primary-color);
+            background: var(--gray-50);
+        }
+
+        .plan-card.featured::before {
+            transform: scaleX(1);
+        }
+
+        /* Enhanced feature comparison table - more compact */
+        .comparison-table {
+            background: var(--white);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            border: 1px solid var(--gray-200);
+        }
+
+        .table-header {
+            background: var(--gray-50);
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .section-header {
+            background: var(--blue-900);
+            color: var(--grey-50);
+            font-weight: 700;
+            padding: 1rem;
+            font-size: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .feature-row {
+            border-bottom: 1px solid var(--gray-200);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .feature-row:last-child {
+            border-bottom: none;
+        }
+
+        .feature-row:hover {
+            background: var(--gray-50);
+        }
+
+        .feature-group-title {
+            background: var(--blue-50);
+            border-bottom: 1px solid var(--gray-200);
+            border-top: 1px solid var(--gray-300);
+            width: 100%;
+        }
+
+        .feature-group-title:first-of-type {
+            border-top: none;
+        }
+
+        .feature-group-title-content {
+            padding: 0.75rem 1rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-cell {
+            padding: 0.875rem;
+            border-right: 1px solid var(--gray-200);
+            position: relative;
+        }
+
+        .feature-cell:last-child {
+            border-right: none;
+        }
+
+        .feature-name {
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feature-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            gap: 0.75rem;
+        }
+
+        .feature-info {
+            flex: 1;
+        }
+
+        .play-icon-right {
+            flex-shrink: 0;
+            margin-left: auto;
+        }
+
+        .feature-description {
+            color: var(--gray-500);
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+
+        /* Enhanced badges */
+        .feature-badge {
+            background: var(--orange-400);
+            color: var(--white);
+            padding: 0.125rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .feature-badge.badge-popular {
+            background: var(--lime-500);
+            color: var(--blue-900);
+        }
+
+        .feature-badge.badge-enterprise {
+            background: var(--blue-900);
+            color: var(--white);
+        }
+
+        .feature-badge.badge-custom {
+            background: var(--opal-100);
+            color: var(--blue-900);
+        }
+
+        /* Enhanced availability indicators - using blue-900 for available */
+        .availability-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem;
+        }
+
+        .check-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            color: var(--blue-900);
+            background: var(--blue-50);
+            border-radius: 50%;
+            padding: 0.125rem;
+        }
+
+        .cross-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            color: var(--gray-400);
+        }
+
+        .limited-text {
+            background: var(--orange-400);
+            color: var(--white);
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--border-radius);
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+
+        /* Enhanced play icon - more compact */
+        .play-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .play-icon::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .play-icon:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-md);
+            background: var(--primary-hover);
+        }
+
+        .play-icon svg {
+            width: 0.75rem;
+            height: 0.75rem;
+            color: var(--white);
+            margin-left: 1px;
+        }
+
+        /* Enhanced tooltip animations */
+        .tooltip-enter {
+            opacity: 0;
+            transform: scale(0.85) translateY(20px);
+        }
+
+        .tooltip-enter-active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .tooltip-exit-active {
+            opacity: 0;
+            transform: scale(0.85) translateY(20px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 1, 1);
+        }
+
+        .tooltip-container {
+            background: var(--gray-800);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--gray-700);
+            backdrop-filter: blur(10px);
+        }
+
+        .tooltip-arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+        }
+
+        .tooltip-arrow.left {
+            right: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-right: 10px solid var(--gray-800);
+        }
+
+        .tooltip-arrow.right {
+            left: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-left: 10px solid var(--gray-800);
+        }
+
+        /* Enhanced carousel indicators */
+        .carousel-indicator {
+            flex: 1;
+            height: 3px;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.25);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel-indicator::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--primary-color);
+            transform: scaleX(0);
+            transition: transform 0.2s ease;
+        }
+
+        .carousel-indicator.active::before {
+            transform: scaleX(1);
+        }
+
+        .carousel-indicator:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Enhanced progress bar */
+        .progress-bar {
+            background: var(--primary-color);
+            border-radius: 2px;
+            box-shadow: 0 0 8px rgba(255, 51, 0, 0.3);
+        }
+
+        /* Enhanced CTA buttons - more compact */
+        .cta-button {
+            background: var(--blue-900);
+            border: none;
+            color: var(--grey-50);
+            font-weight: 600;
+            padding: 0.625rem 1.25rem;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.1);
+            transition: opacity 0.2s ease;
+            opacity: 0;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+            background: var(--blue-800);
+        }
+
+        .cta-button:hover::before {
+            opacity: 1;
+        }
+
+        .cta-button:active {
+            transform: translateY(0);
+        }
+
+        /* Starter plan button - White with outline */
+        .cta-button.starter {
+            background: var(--white);
+            color: var(--blue-900);
+            border: 2px solid var(--blue-900);
+            box-shadow: none;
+        }
+
+        .cta-button.starter:hover {
+            background: var(--blue-50);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Professional plan button - Orange */
+        .cta-button.professional {
+            background: var(--orange-500);
+            color: var(--white);
+            border: none;
+        }
+
+        .cta-button.professional:hover {
+            background: var(--orange-400);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Enhanced responsive design - more compact */
+        @media (max-width: 1024px) {
+            .plan-card {
+                padding: 1rem;
+            }
+            
+            .feature-cell {
+                padding: 0.75rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 0.5rem 0;
+            }
+            
+            .plan-card {
+                padding: 1rem;
+            }
+
+            .feature-cell {
+                padding: 0.625rem;
+            }
+
+            .section-header {
+                padding: 0.75rem;
+                font-size: 0.875rem;
+            }
+
+            .feature-name {
+                font-size: 0.8rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.375rem;
+            }
+
+            .feature-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .play-icon-right {
+                align-self: flex-end;
+                margin-left: 0;
+            }
+
+            .feature-description {
+                font-size: 0.75rem;
+            }
+
+            .comparison-table {
+                border-radius: var(--border-radius);
+                margin: 0 0.25rem;
+            }
+            
+            /* Mobile table layout */
+            .feature-row {
+                grid-template-columns: 1fr !important;
+                gap: 0.75rem;
+            }
+            
+            .table-header {
+                display: none; /* Hide table headers on mobile */
+            }
+            
+            .availability-columns {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.75rem;
+                padding: 0.75rem;
+                background: var(--gray-50);
+                border-radius: var(--border-radius);
+                margin-top: 0.375rem;
+            }
+            
+            .availability-column-header {
+                font-size: 0.7rem;
+                font-weight: 600;
+                color: var(--gray-500);
+                text-align: center;
+                margin-bottom: 0.375rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .comparison-table {
+                margin: 0 0.125rem;
+            }
+            
+            .feature-cell {
+                padding: 0.5rem;
+            }
+            
+            .section-header {
+                padding: 0.5rem;
+            }
+            
+            .plan-card {
+                padding: 0.75rem;
+            }
+        }
+
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Focus styles for accessibility */
+        .play-icon:focus-visible,
+        .cta-button:focus-visible,
+        .carousel-indicator:focus-visible {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            .plan-card {
+                border-width: 3px;
+            }
+
+            .feature-row:hover {
+                background: var(--gray-100);
+            }
+
+            .check-icon {
+                background: var(--success-color);
+                color: white;
+            }
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen py-8">
+    <div class="max-w-7xl mx-auto px-6">
+        <!-- Header Section -->
+        <div id="headerSection" class="mb-12">
+            <!-- Will be populated from JSON -->
+        </div>
+
+        <!-- Feature Comparison Sections -->
+        <div id="featureSections">
+            <!-- Will be populated from JSON -->
+        </div>
+    </div>
+
+    <!-- Video Tooltip -->
+    <div id="videoTooltip" class="fixed z-50 hidden tooltip-enter">
+        <div class="tooltip-container w-80 relative">
+            <!-- Close button -->
+            <button id="closeTooltip" 
+                    class="absolute top-3 right-3 z-20 w-7 h-7 bg-black bg-opacity-60 hover:bg-opacity-80 rounded-full flex items-center justify-center transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white"
+                    aria-label="Close video tooltip">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+
+            <!-- Carousel indicators at top -->
+            <div class="absolute top-3 left-3 right-12 z-10">
+                <div id="carouselIndicators" class="flex gap-2">
+                    <!-- Carousel indicators will be created dynamically -->
+                </div>
+            </div>
+
+            <!-- Video container -->
+            <div class="relative">
+                <video id="mainVideo" 
+                       class="w-full h-96 object-cover bg-black rounded-t-xl" 
+                       muted 
+                       autoplay 
+                       loop
+                       aria-label="Feature demonstration video">
+                    <!-- Video source will be set dynamically -->
+                </video>
+                
+                <!-- Video title overlay -->
+                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/50 to-transparent p-4 rounded-t-xl">
+                    <p id="videoTitle" class="text-white text-sm font-medium">Feature Demo</p>
+                </div>
+            </div>
+
+            <!-- Video info and progress bar -->
+            <div class="p-4 bg-gray-800 rounded-b-xl">
+                <h3 id="videoHeading" class="text-white font-semibold text-base mb-4">Feature Name</h3>
+                
+                <!-- Enhanced progress bar -->
+                <div class="w-full">
+                    <div class="w-full h-2 bg-gray-600 rounded-full overflow-hidden">
+                        <div id="playbackProgress" class="h-full progress-bar rounded-full transition-all duration-100 w-0"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tooltip arrow -->
+            <div id="tooltipArrow" class="tooltip-arrow"></div>
+        </div>
+    </div>
+
+    <script>
+        // JSON Data
+        const jsonData = {
+            "en": {
+                "header": [
+                    {
+                        "name": "Starter",
+                        "cta_text": "Get Started",
+                        "cta_link": "https://www.chargebee.com/starter",
+                        "description": "Perfect for small businesses and startups looking to manage subscriptions efficiently.",
+                        "price": "$0"
+                    },
+                    {
+                        "name": "Professional",
+                        "cta_text": "Upgrade Now",
+                        "cta_link": "https://www.chargebee.com/professional",
+                        "description": "Ideal for growing businesses that need advanced billing features and analytics.",
+                        "price": "$49"
+                    },
+                    {
+                        "name": "Enterprise",
+                        "cta_text": "Contact Sales",
+                        "cta_link": "https://www.chargebee.com/enterprise",
+                        "description": "Designed for large enterprises with complex billing needs and custom solutions.",
+                        "price": "Custom"
+                    }
+                ],
+                "body": [
+                    {
+                        "title": "Core Billing & Subscriptions",
+                        "description": "Essential features for subscription management and billing automation",
+                        "features": [
+                            {
+                                "name": "Subscription Management",
+                                "description": "Create, modify, and cancel subscriptions with automated workflows.",
+                                "available": [true, true, true],
+                                "has_video": true,
+                                "video_url": "video-for-reels.mp4"
+                            },
+                            {
+                                "name": "Recurring Billing",
+                                "description": "Automated recurring charges with flexible billing cycles.",
+                                "available": [true, true, true],
+                                "has_video": false
+                            },
+                            {
+                                "name": "Invoice Management",
+                                "description": "Generate, customize, and manage professional invoices.",
+                                "available": ["limited", true, true],
+                                "has_video": true,
+                                "video_url": "video-for-reels.mp4"
+                            },
+                            {
+                                "name": "Payment Processing",
+                                "description": "Accept payments through multiple gateways and methods.",
+                                "available": [false, true, true],
+                                "has_video": false
+                            },
+                            {
+                                "name": "Dunning Management",
+                                "description": "Automated retry logic for failed payments and smart reminders.",
+                                "available": [false, true, true],
+                                "has_video": true,
+                                "video_url": "video-for-reels.mp4"
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Analytics & Reporting",
+                        "description": "Business intelligence and financial insights for data-driven decisions",
+                        "features": [
+                            {
+                                "name": "Revenue Analytics",
+                                "description": "Track MRR, ARR, churn rates, and revenue growth metrics.",
+                                "available": [false, true, true],
+                                "has_video": true,
+                                "video_url": "video-for-reels.mp4"
+                            },
+                            {
+                                "name": "Customer Insights",
+                                "description": "Analyze customer behavior, lifetime value, and segmentation.",
+                                "available": [false, "limited", true],
+                                "has_video": false
+                            },
+                            {
+                                "name": "Financial Reports",
+                                "description": "Generate detailed financial reports for accounting and compliance.",
+                                "available": [false, true, true],
+                                "has_video": true,
+                                "video_url": "video-for-reels.mp4"
+                            },
+                            {
+                                "name": "Custom Dashboards",
+                                "description": "Build personalized dashboards with key business metrics.",
+                                "available": [false, false, true],
+                                "has_video": false,
+                                "badge": "ENTERPRISE ONLY"
+                            },
+                            {
+                                "name": "Data Export",
+                                "description": "Export data to external systems and data warehouses.",
+                                "available": ["limited", true, true],
+                                "has_video": false
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Global Commerce",
+                        "description": "International business capabilities for global market expansion",
+                        "features": [
+                            {
+                                "name": "Multi-Currency Support",
+                                "description": "Accept payments and bill customers in 100+ currencies.",
+                                "available": [true, true, true],
+                                "has_video": true,
+                                "video_url": "video-for-reels.mp4",
+                                "badge": "POPULAR"
+                            },
+                            {
+                                "name": "Tax Management",
+                                "description": "Automated tax calculations for global compliance.",
+                                "available": [false, true, true],
+                                "has_video": false
+                            },
+                            {
+                                "name": "Localization",
+                                "description": "Localize invoices, emails, and customer portal in multiple languages.",
+                                "available": [false, "limited", true],
+                                "has_video": false
+                            },
+                            {
+                                "name": "Regional Gateways",
+                                "description": "Connect to regional payment gateways for better conversion.",
+                                "available": [false, true, true],
+                                "has_video": true,
+                                "video_url": "video-for-reels.mp4"
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Developer Tools",
+                        "description": "APIs, webhooks, and integrations for seamless development workflows",
+                        "features": [
+                            {
+                                "name": "REST APIs",
+                                "description": "Comprehensive REST APIs for all billing and subscription operations.",
+                                "available": ["limited", true, true],
+                                "has_video": true,
+                                "video_url": "video-for-reels.mp4"
+                            },
+                            {
+                                "name": "Webhooks",
+                                "description": "Real-time event notifications for system integrations.",
+                                "available": [false, true, true],
+                                "has_video": false
+                            },
+                            {
+                                "name": "SDKs & Libraries",
+                                "description": "Official SDKs for popular programming languages.",
+                                "available": [true, true, true],
+                                "has_video": false
+                            },
+                            {
+                                "name": "Sandbox Environment",
+                                "description": "Full-featured testing environment for development.",
+                                "available": [true, true, true],
+                                "has_video": true,
+                                "video_url": "video-for-reels.mp4"
+                            },
+                            {
+                                "name": "Rate Limiting",
+                                "description": "Configurable API rate limits for production workloads.",
+                                "available": ["limited", "limited", true],
+                                "has_video": false
+                            }
+                        ]
+                    },
+                    {
+                        "title": "Support & Services",
+                        "description": "Customer support, onboarding, and professional services",
+                        "features": [
+                            {
+                                "name": "Email Support",
+                                "description": "Standard email support with 24-48 hour response time.",
+                                "available": [true, true, true],
+                                "has_video": false
+                            },
+                            {
+                                "name": "Priority Support",
+                                "description": "Priority email and chat support with faster response times.",
+                                "available": [false, true, true],
+                                "has_video": false
+                            },
+                            {
+                                "name": "Phone Support",
+                                "description": "Direct phone support with dedicated account managers.",
+                                "available": [false, false, true],
+                                "has_video": false,
+                                "badge": "ENTERPRISE ONLY"
+                            },
+                            {
+                                "name": "Onboarding Assistance",
+                                "description": "Guided onboarding and implementation support.",
+                                "available": [false, "limited", true],
+                                "has_video": true,
+                                "video_url": "video-for-reels.mp4"
+                            },
+                            {
+                                "name": "Professional Services",
+                                "description": "Custom implementation and integration services.",
+                                "available": [false, false, true],
+                                "has_video": false,
+                                "badge": "CUSTOM PRICING"
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        class FeatureComparisonManager {
+            constructor() {
+                this.data = jsonData.en;
+                this.tooltip = document.getElementById('videoTooltip');
+                this.closeButton = document.getElementById('closeTooltip');
+                this.mainVideo = document.getElementById('mainVideo');
+                this.carouselIndicators = document.getElementById('carouselIndicators');
+                this.playbackProgress = document.getElementById('playbackProgress');
+                this.tooltipArrow = document.getElementById('tooltipArrow');
+                this.videoTitle = document.getElementById('videoTitle');
+                this.videoHeading = document.getElementById('videoHeading');
+
+                this.currentFeature = null;
+                this.currentStoryIndex = 0;
+                this.isOpen = false;
+                this.carouselDots = [];
+                this.hideTimeout = null;
+                this.progressInterval = null;
+
+                this.init();
+            }
+
+            init() {
+                this.renderHeader();
+                this.renderFeatureSections();
+                this.bindEvents();
+            }
+
+            renderHeader() {
+                const headerSection = document.getElementById('headerSection');
+                const headers = this.data.header;
+
+                headerSection.innerHTML = `
+                    <div class="text-center mb-8">
+                        <h1 class="text-4xl font-bold text-gray-900 mb-4" style="background: linear-gradient(135deg, var(--primary-color), var(--blue-900)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                            Choose Your Perfect Plan
+                        </h1>
+                        <p class="text-lg text-gray-500 max-w-3xl mx-auto leading-relaxed">
+                            Select the ideal plan for your business needs and unlock powerful subscription management features
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                        ${headers.map((plan, index) => {
+                            const planClass = plan.name.toLowerCase();
+                            return `
+                            <div class="plan-card ${index === 1 ? 'featured' : ''}">
+                                ${index === 1 ? `<div class="absolute top-3 right-3 text-xs font-bold px-2 py-1 rounded-full" style="background: var(--lime-500); color: var(--blue-900);">MOST POPULAR</div>` : ''}
+                                <div class="text-center">
+                                    <h3 class="text-xl font-bold text-gray-900 mb-2">${plan.name}</h3>
+                                    <div class="mb-4">
+                                        <span class="text-3xl font-bold" style="color: var(--primary-color);">${plan.price}</span>
+                                        ${plan.price !== 'Custom' && plan.price !== 'Contact Sales' ? '<span class="text-gray-500 text-base">/month</span>' : ''}
+                                    </div>
+                                    <p class="text-gray-500 mb-6 leading-relaxed text-sm">${plan.description}</p>
+                                    <a href="${plan.cta_link}" 
+                                       class="cta-button ${planClass} block w-full text-center text-decoration-none"
+                                       role="button"
+                                       aria-label="Get started with ${plan.name} plan">
+                                        ${plan.cta_text}
+                                    </a>
+                                </div>
+                            </div>
+                        `;
+                        }).join('')}
+                    </div>
+                `;
+            }
+
+            renderFeatureSections() {
+                const sectionsContainer = document.getElementById('featureSections');
+                const sections = this.data.body;
+
+                sectionsContainer.innerHTML = `
+                    <div class="comparison-table">
+                        <!-- Single Section Header for entire table -->
+                        <div class="section-header">
+                            <h2>Feature Comparison</h2>
+                            <p class="text-sm opacity-90 mt-1">Compare features across all plans to find the perfect fit for your business</p>
+                        </div>
+
+                        <!-- Table Header with column names -->
+                        <div class="table-header grid gap-0" style="grid-template-columns: 2fr 1fr 1fr 1fr;">
+                            <div class="feature-cell font-semibold text-gray-700">Features</div>
+                            ${this.data.header.map(plan => `
+                                <div class="feature-cell text-center font-semibold text-gray-700">${plan.name}</div>
+                            `).join('')}
+                        </div>
+
+                        <!-- All Feature Groups and Rows -->
+                        ${sections.map(section => `
+                            <!-- Feature Group Title (spans full width) -->
+                            <div class="feature-group-title">
+                                <div class="feature-group-title-content">
+                                    <span class="text-lg font-bold text-gray-800">${section.title}</span>
+                                    <span class="text-sm text-gray-600 font-normal ml-2">— ${section.description}</span>
+                                </div>
+                            </div>
+
+                            <!-- Feature Rows for this group -->
+                            ${section.features.map((feature, featureIndex) => {
+                                const featureKey = `${feature.name.toLowerCase().replace(/\s+/g, '-')}-${featureIndex}`;
+                                return `
+                                    <div class="feature-row grid gap-0" style="grid-template-columns: 2fr 1fr 1fr 1fr;" data-feature="${featureKey}">
+                                        <div class="feature-cell">
+                                            <div class="feature-content">
+                                                <div class="feature-info">
+                                                    <div class="feature-name">
+                                                        <span>${feature.name}</span>
+                                                        ${feature.badge ? `
+                                                            <span class="feature-badge ${this.getBadgeClass(feature.badge)}">${feature.badge}</span>
+                                                        ` : ''}
+                                                    </div>
+                                                    <div class="feature-description">${feature.description}</div>
+                                                </div>
+                                                ${feature.has_video ? `
+                                                    <button class="play-icon play-icon-right" 
+                                                            data-feature="${featureKey}"
+                                                            aria-label="Watch demo video for ${feature.name}"
+                                                            title="Watch demo video">
+                                                        <svg viewBox="0 0 20 20" fill="currentColor">
+                                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+                                                        </svg>
+                                                    </button>
+                                                ` : ''}
+                                            </div>
+                                        </div>
+                                        ${feature.available.map(available => `
+                                            <div class="feature-cell availability-indicator">
+                                                ${this.renderAvailability(available)}
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                `;
+                            }).join('')}
+                        `).join('')}
+                    </div>
+                `;
+
+                // Rebind events after rendering
+                this.rebindDynamicEvents();
+            }
+
+            renderAvailability(status) {
+                if (status === true) {
+                    return `
+                        <svg class="check-icon" fill="currentColor" viewBox="0 0 20 20" aria-label="Available">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                        </svg>
+                    `;
+                } else if (status === false) {
+                    return `
+                        <svg class="cross-icon" fill="currentColor" viewBox="0 0 20 20" aria-label="Not available">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                        </svg>
+                    `;
+                } else if (status === 'limited') {
+                    return `<span class="limited-text">Limited</span>`;
+                }
+                return '';
+            }
+
+            getBadgeClass(badgeText) {
+                switch(badgeText) {
+                    case 'POPULAR':
+                        return 'badge-popular';
+                    case 'ENTERPRISE ONLY':
+                        return 'badge-enterprise';
+                    case 'CUSTOM PRICING':
+                        return 'badge-custom';
+                    default:
+                        return '';
+                }
+            }
+
+            bindEvents() {
+                // Tooltip hover handling
+                this.tooltip.addEventListener('mouseenter', () => this.cancelHide());
+                this.tooltip.addEventListener('mouseleave', () => this.scheduleHide());
+
+                // Close button
+                this.closeButton.addEventListener('click', () => this.hideTooltip());
+
+                // Video events
+                this.mainVideo.addEventListener('ended', () => this.onVideoEnded());
+                this.mainVideo.addEventListener('error', (e) => {
+                    console.log('Video loading error:', e);
+                });
+
+                // Keyboard support
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && this.isOpen) {
+                        this.hideTooltip();
+                    }
+                });
+
+                // Use event delegation for play icons
+                document.addEventListener('click', (e) => {
+                    if (e.target.closest('.play-icon')) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                });
+
+                // Rebind events after dynamic content is created
+                this.rebindDynamicEvents();
+            }
+
+            rebindDynamicEvents() {
+                // Wait for DOM to be updated, then rebind events
+                setTimeout(() => {
+                    const playIcons = document.querySelectorAll('.play-icon');
+                    playIcons.forEach(icon => {
+                        // Remove existing listeners
+                        icon.removeEventListener('mouseenter', this.showTooltipHandler);
+                        icon.removeEventListener('mouseleave', this.scheduleHideHandler);
+                        
+                        // Add new listeners
+                        icon.addEventListener('mouseenter', (e) => {
+                            e.stopPropagation();
+                            this.showTooltip(e);
+                        });
+                        
+                        icon.addEventListener('mouseleave', (e) => {
+                            // Only hide if not moving to the tooltip
+                            setTimeout(() => {
+                                if (!this.tooltip.matches(':hover') && !icon.matches(':hover')) {
+                                    this.scheduleHide();
+                                }
+                            }, 50);
+                        });
+                    });
+
+                    const featureRows = document.querySelectorAll('.feature-row');
+                    featureRows.forEach(row => {
+                        row.removeEventListener('mouseleave', this.scheduleHideHandler);
+                        row.addEventListener('mouseleave', (e) => {
+                            // Only schedule hide if not moving to tooltip
+                            setTimeout(() => {
+                                if (!this.tooltip.matches(':hover')) {
+                                    this.scheduleHide();
+                                }
+                            }, 100);
+                        });
+                    });
+                }, 100);
+            }
+
+            showTooltip(event) {
+                // Cancel any pending hide operations
+                this.cancelHide();
+
+                const target = event.target.closest('.play-icon');
+                if (!target || !target.getAttribute) return;
+
+                const featureKey = target.getAttribute('data-feature');
+                if (!featureKey) return;
+
+                // Find the feature data with improved logic for cleaner JSON structure
+                let featureData = null;
+                let sectionIndex = 0;
+                for (const section of this.data.body) {
+                    const featureIndex = section.features.findIndex((feature, index) => {
+                        const key = `${feature.name.toLowerCase().replace(/\s+/g, '-')}-${index}`;
+                        return key === featureKey;
+                    });
+                    
+                    if (featureIndex !== -1) {
+                        featureData = section.features[featureIndex];
+                        break;
+                    }
+                    sectionIndex++;
+                }
+
+                if (!featureData || !featureData.video_url) return;
+
+                this.currentFeature = featureData;
+                this.currentStoryIndex = 0;
+
+                this.positionTooltip(target);
+                this.updateContent();
+                this.createCarouselIndicators();
+
+                if (!this.isOpen) {
+                    this.isOpen = true;
+                    this.tooltip.classList.remove('hidden');
+
+                    setTimeout(() => {
+                        this.tooltip.classList.remove('tooltip-enter');
+                        this.tooltip.classList.add('tooltip-enter-active');
+                    }, 10);
+                }
+
+                this.startProgressTracking();
+            }
+
+            scheduleHide() {
+                // Clear any existing timeout
+                this.cancelHide();
+                
+                // Set a longer delay to allow smooth transition to tooltip
+                this.hideTimeout = setTimeout(() => {
+                    // Double-check that mouse is not over tooltip or play icon
+                    if (!this.tooltip.matches(':hover') && !document.querySelector('.play-icon:hover')) {
+                        this.hideTooltip();
+                    }
+                }, 500);
+            }
+
+            cancelHide() {
+                if (this.hideTimeout) {
+                    clearTimeout(this.hideTimeout);
+                    this.hideTimeout = null;
+                }
+            }
+
+            hideTooltip() {
+                if (!this.isOpen) return;
+
+                this.isOpen = false;
+                this.stopProgressTracking();
+
+                this.tooltip.classList.remove('tooltip-enter-active');
+                this.tooltip.classList.add('tooltip-exit-active');
+
+                setTimeout(() => {
+                    this.tooltip.classList.add('hidden');
+                    this.tooltip.classList.remove('tooltip-exit-active');
+                    this.tooltip.classList.add('tooltip-enter');
+                    this.mainVideo.pause();
+                }, 200);
+            }
+
+            positionTooltip(triggerElement) {
+                const rect = triggerElement.getBoundingClientRect();
+                const viewport = {
+                    width: window.innerWidth,
+                    height: window.innerHeight
+                };
+
+                let left, top, arrowClass;
+                // New tooltip dimensions: 320px width, ~480px height (384px video + ~96px for controls/padding)
+                const tooltipWidth = 320;
+                const tooltipHeight = 480;
+
+                // Try positioning to the right first
+                if (rect.right + tooltipWidth + 20 <= viewport.width) {
+                    left = rect.right + 15;
+                    top = rect.top + (rect.height / 2) - (tooltipHeight / 2);
+                    arrowClass = 'left';
+                } else {
+                    // Position to the left
+                    left = rect.left - tooltipWidth - 15;
+                    top = rect.top + (rect.height / 2) - (tooltipHeight / 2);
+                    arrowClass = 'right';
+                }
+
+                // Ensure tooltip stays within viewport
+                left = Math.max(10, Math.min(left, viewport.width - tooltipWidth - 10));
+                top = Math.max(10, Math.min(top, viewport.height - tooltipHeight - 10));
+
+                this.tooltip.style.left = left + 'px';
+                this.tooltip.style.top = top + 'px';
+                this.tooltipArrow.className = `tooltip-arrow ${arrowClass}`;
+            }
+
+            createCarouselIndicators() {
+                // Create 3 stories for demo
+                const storyCount = 3;
+                this.carouselIndicators.innerHTML = '';
+                this.carouselDots = [];
+
+                for (let i = 0; i < storyCount; i++) {
+                    const indicator = document.createElement('button');
+                    indicator.className = 'carousel-indicator';
+                    indicator.setAttribute('aria-label', `Go to story ${i + 1}`);
+                    
+                    if (i === this.currentStoryIndex) {
+                        indicator.classList.add('active');
+                    }
+
+                    indicator.addEventListener('click', () => {
+                        this.jumpToStory(i);
+                    });
+
+                    this.carouselIndicators.appendChild(indicator);
+                    this.carouselDots.push(indicator);
+                }
+            }
+
+            jumpToStory(index) {
+                if (index !== this.currentStoryIndex && index >= 0 && index < 3) {
+                    this.currentStoryIndex = index;
+                    this.updateContent();
+                    this.updateCarouselIndicators();
+                }
+            }
+
+            updateCarouselIndicators() {
+                this.carouselDots.forEach((dot, index) => {
+                    if (index === this.currentStoryIndex) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
+
+            updateContent() {
+                if (!this.currentFeature) return;
+
+                const storyTitles = ['Getting Started', 'Advanced Setup', 'Best Practices'];
+                
+                this.videoHeading.textContent = this.currentFeature.name;
+                this.videoTitle.textContent = storyTitles[this.currentStoryIndex];
+
+                // Load the video with error handling
+                try {
+                    this.mainVideo.src = this.currentFeature.video_url;
+                    this.mainVideo.load();
+                    
+                    // Reset progress bar
+                    this.playbackProgress.style.width = '0%';
+                } catch (error) {
+                    console.log('Video loading error:', error);
+                }
+            }
+
+            startProgressTracking() {
+                this.stopProgressTracking();
+                this.progressInterval = setInterval(() => {
+                    this.updateProgress();
+                }, 100);
+            }
+
+            stopProgressTracking() {
+                if (this.progressInterval) {
+                    clearInterval(this.progressInterval);
+                    this.progressInterval = null;
+                }
+            }
+
+            updateProgress() {
+                if (!this.isOpen || !this.mainVideo) return;
+                
+                try {
+                    if (this.mainVideo.duration && this.mainVideo.duration > 0) {
+                        const progress = (this.mainVideo.currentTime / this.mainVideo.duration) * 100;
+                        this.playbackProgress.style.width = Math.min(progress, 100) + '%';
+                    }
+                } catch (error) {
+                    console.log('Progress update error:', error);
+                }
+            }
+
+            onVideoEnded() {
+                if (this.currentStoryIndex < 2) {
+                    // Move to next story
+                    this.currentStoryIndex++;
+                    this.updateContent();
+                    this.updateCarouselIndicators();
+                } else {
+                    // All stories completed, hide tooltip
+                    setTimeout(() => this.hideTooltip(), 500);
+                }
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new FeatureComparisonManager();
+        });
+    </script>
+</body>
+</html>

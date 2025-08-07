@@ -1,0 +1,940 @@
+/* =================================================================
+   CSS CUSTOM PROPERTIES (ROOT VARIABLES)
+   ================================================================= */
+:root {
+  /* Brand Color Palette */
+  --orange-500: #FF3300;
+  --orange-400: #FF523B;
+  --blue-900: #012A38;
+  --blue-800: #4F6169;
+  --blue-100: #92A1A8;
+  --blue-50: #D3D9DC;
+  --grey-50: #EFEFEF;
+  --white: #FFFFFF;
+  --lime-500: #BFF90B;
+  --bone-50: #E0DBC6;
+  --opal-100: #A2C1C4;
+  --transparent: transparent;
+  /* Semantic Color Assignments */
+  --primary-color: var(--orange-500);
+  --primary-hover: var(--orange-400);
+  --success-color: var(--blue-900);
+  --accent-lime: var(--lime-500);
+  /* Grayscale System */
+  --gray-50: var(--grey-50);
+  --gray-100: var(--bone-50);
+  --gray-200: var(--blue-50);
+  --gray-300: var(--opal-100);
+  --gray-400: var(--blue-100);
+  --gray-500: var(--blue-800);
+  --gray-600: var(--blue-900);
+  --gray-700: var(--blue-900);
+  --gray-800: var(--blue-900);
+  --gray-900: var(--blue-900);
+  /* Design Tokens */
+  --border-radius: 8px;
+  --border-radius-lg: 12px;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 2px 4px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 4px 8px -2px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 8px 16px -4px rgb(0 0 0 / 0.1);
+  --transition: all 0.2s ease;
+}
+
+/* =================================================================
+   BASE & UTILITY CLASSES
+   ================================================================= */
+/* Fade Animations */
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.fade-in {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+/* Main Layout */
+.feature-sections {
+  width: 100%;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+/* =================================================================
+   BUTTON COMPONENTS
+   ================================================================= */
+/* RC Button */
+.rc-button {
+  border: none;
+  border-radius: 30px;
+  font-family: Sora, sans-serif;
+  font-size: 12px;
+  line-height: 1;
+  outline: 0;
+  padding: 5px 12px;
+  transition: all 0.2s ease;
+}
+.rc-button[aria-selected=true] {
+  background: hsla(0, 0%, 100%, 0.75);
+}
+
+/* CTA Button */
+.cta-button {
+  background: var(--blue-900);
+  color: var(--white);
+  font-weight: 600;
+  padding: 8px 16px;
+  border: 2px solid var(--blue-900);
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  font-size: 14px;
+  line-height: 120%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.cta-button:hover {
+  transform: translateY(-1px);
+}
+.cta-button--performance {
+  border-color: var(--orange-500);
+  background: var(--orange-500);
+  color: var(--white);
+}
+.cta-button--cpq-lite {
+  border-color: var(--orange-500);
+  background: var(--orange-500);
+  color: var(--white);
+}
+.cta-button--enterprise {
+  border-color: var(--blue-900);
+  background: var(--white);
+  color: var(--blue-900);
+}
+
+/* Product Switcher Buttons */
+.product-btn {
+  color: var(--blue-800);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  gap: 8px;
+}
+@media screen and (min-width: 1280px) {
+  .product-btn {
+    padding: 12px 24px;
+  }
+}
+.product-btn .product-icon {
+  display: none;
+  visibility: hidden;
+}
+@media screen and (min-width: 1280px) {
+  .product-btn .product-icon {
+    display: block;
+  }
+}
+.product-btn.active {
+  color: var(--blue-900);
+  border-radius: 10px 10px 0 0;
+  background: #FFF;
+  backdrop-filter: blur(2px);
+}
+.product-btn.active .product-icon {
+  visibility: visible;
+}
+@media screen and (min-width: 1280px) {
+  .product-btn.active {
+    border-radius: 20px 20px 0 0;
+  }
+}
+
+/* Play Button */
+.play-icon {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  position: absolute;
+  right: 16px;
+  top: calc(50% - 7.5px);
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.play-icon:hover svg path {
+  fill: var(--blue-900);
+  fill-opacity: 1;
+}
+.play-icon:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* =================================================================
+   PRICING COMPONENTS
+   ================================================================= */
+/* Pricing Card Structure */
+.rc-pricing {
+  /* Pricing Number Display */
+  /* Pricing Description */
+  /* Pricing Feature List */
+  /* Pricing Actions */
+  /* Pricing Quotes */
+}
+.rc-pricing-card {
+  border-radius: 24px;
+  padding: 24px;
+  background: #ffffff;
+}
+@media screen and (min-width: 768px) {
+  .rc-pricing-card {
+    padding: 24px 24px 48px 24px;
+  }
+}
+.rc-pricing-card--starter {
+  width: 100%;
+  max-width: 580px;
+  backdrop-filter: blur(30px);
+  background: rgba(255, 255, 255, 0.22);
+  padding: 24px;
+}
+@media screen and (min-width: 768px) {
+  .rc-pricing-card--starter {
+    padding: 24px;
+  }
+}
+.rc-pricing-card--back {
+  background: linear-gradient(0deg, rgba(1, 42, 56, 0.05), rgba(1, 42, 56, 0.05)), linear-gradient(83deg, #012a38 -21.74%, #fff 18.92%, #fff 79.9%, #012a38 140.89%), #fff;
+  position: relative;
+  z-index: 0;
+}
+@media screen and (min-width: 768px) {
+  .rc-pricing-card--back.rc-pricing-card--left {
+    margin-right: -24px;
+    padding-right: 48px;
+  }
+  .rc-pricing-card--back.rc-pricing-card--right {
+    margin-left: -24px;
+    padding-left: 48px;
+  }
+}
+.rc-pricing-card--front {
+  position: relative;
+  z-index: 1;
+}
+.rc-pricing-number {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+  justify-content: center;
+}
+.rc-pricing-number div,
+.rc-pricing-number .text-variant {
+  display: inline-block;
+}
+.rc-pricing-desc {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+}
+.rc-pricing-desc + .rc-pricing-desc {
+  margin-top: 20px;
+}
+.rc-pricing-list {
+  position: relative;
+  max-width: max-content;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  list-style-type: none;
+  color: var(--blue-900);
+}
+.rc-pricing-list ul {
+  margin-top: 12px;
+}
+.rc-pricing-list li {
+  position: relative;
+  padding-left: 22px;
+}
+.rc-pricing-list li a {
+  font-weight: 700;
+  color: var(--blue-800);
+  text-decoration-line: underline;
+}
+.rc-pricing-list li:last-child {
+  margin-bottom: 0px;
+}
+.rc-pricing-list li::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' viewBox='0 0 57 57' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M56.3242 28.7819C56.3242 44.2458 43.7882 56.7819 28.3242 56.7819C12.8602 56.7819 0.324219 44.2458 0.324219 28.7819C0.324219 13.3179 12.8602 0.78186 28.3242 0.78186C43.7882 0.78186 56.3242 13.3179 56.3242 28.7819Z' fill='%23FF3300'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M47.0793 19.9426L22.8695 43.9562L9.59375 31.0441L13.7771 26.7429L22.8283 35.5462L42.854 15.6827L47.0793 19.9426Z' fill='white'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+}
+@media (min-width: 1600px) {
+  .rc-pricing-list li::before {
+    width: 15px;
+    height: 15px;
+    top: 4px;
+  }
+}
+.rc-pricing-list--enterprise li:before {
+  background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' viewBox='0 0 57 57' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M56.3242 28.7819C56.3242 44.2458 43.7882 56.7819 28.3242 56.7819C12.8602 56.7819 0.324219 44.2458 0.324219 28.7819C0.324219 13.3179 12.8602 0.78186 28.3242 0.78186C43.7882 0.78186 56.3242 13.3179 56.3242 28.7819Z' fill='%23012A38'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M47.0793 19.9426L22.8695 43.9562L9.59375 31.0441L13.7771 26.7429L22.8283 35.5462L42.854 15.6827L47.0793 19.9426Z' fill='white'/%3E%3C/svg%3E");
+}
+.rc-pricing-action .sm\:rc-w-fit,
+.rc-pricing-action a {
+  width: 100%;
+}
+.rc-pricing-quote--starter {
+  padding-left: 16px;
+  border-left: 4px solid #012a38;
+}
+.rc-pricing-quote--performance {
+  padding-left: 16px;
+  border-left: 4px solid #ff3300;
+}
+.rc-pricing-quote--enterprise {
+  padding-left: 16px;
+  border-left: 4px solid #012937;
+}
+
+/* Alternative Pricing List Style */
+.rc-pricing-list {
+  --tw-text-opacity: 1;
+  color: #4f6169;
+  color: rgba(79, 97, 105, var(--tw-text-opacity, 1));
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: -0.25px;
+  line-height: 20px;
+  list-style-type: none;
+  max-width: max-content;
+  position: relative;
+}
+
+/* =================================================================
+   FEATURE COMPARISON TABLE
+   ================================================================= */
+/* Product Switcher */
+.product-switcher {
+  display: none;
+  align-items: center;
+  justify-content: left;
+  transition: all 0.2s ease;
+}
+@media (min-width: 768px) {
+  .product-switcher {
+    display: flex;
+    opacity: 0;
+  }
+}
+
+@media (min-width: 768px) {
+  .stuck .product-switcher {
+    opacity: 1;
+  }
+}
+
+/* Table Structure */
+.table-header,
+.feature-row {
+  display: flex;
+  gap: 0;
+  align-items: center;
+}
+
+/* Plan Headers */
+.plan-header-cell {
+  position: relative;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 0;
+  width: 100px;
+  flex-shrink: 0;
+}
+@media (min-width: 768px) {
+  .plan-header-cell {
+    width: 120px;
+  }
+}
+@media (min-width: 1024px) {
+  .plan-header-cell {
+    width: 180px;
+  }
+}
+
+.plan-name {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 119%;
+  letter-spacing: -0.36px;
+}
+@media screen and (min-width: 768px) {
+  .plan-name {
+    font-size: 14px;
+  }
+}
+@media screen and (min-width: 1024px) {
+  .plan-name {
+    font-size: 16px;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .plan-name {
+    font-size: 18px;
+  }
+}
+.plan-name.performance, .plan-name.professional, .plan-name.cpq-lite {
+  color: var(--orange-500);
+}
+
+.plan-price {
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 300;
+  color: var(--blue-900);
+}
+.plan-price b {
+  font-weight: 600;
+}
+
+/* Feature Cells */
+.feature-cell-header {
+  position: relative;
+  font-weight: 600;
+  align-content: end;
+  align-self: end;
+}
+
+.feature-cell-header,
+.feature-cell {
+  flex: 1;
+  min-width: 240px;
+  position: relative;
+}
+
+.feature-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 0.75rem;
+}
+
+.feature-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Availability Indicators */
+.availability-cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  width: 100px;
+  flex-shrink: 0;
+}
+@media (min-width: 768px) {
+  .availability-cell {
+    width: 120px;
+  }
+}
+@media (min-width: 1024px) {
+  .availability-cell {
+    width: 180px;
+  }
+}
+.availability-cell.not-available {
+  opacity: 0.5;
+}
+
+.check-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--blue-900);
+  background: var(--blue-50);
+  border-radius: 50%;
+  padding: 0.125rem;
+}
+
+.cross-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--gray-400);
+}
+
+.limited-text {
+  color: var(--blue-900);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+/* Feature Rows */
+.feature-row--hover:hover {
+  background: rgba(162, 193, 196, 0.2);
+  mix-blend-mode: plus-darker;
+}
+.feature-row--hover:hover .availability-cell.available svg {
+  color: var(--orange-500);
+}
+
+/* =================================================================
+   FEATURE GROUPS
+   ================================================================= */
+.feature-group {
+  background: linear-gradient(192deg, #FFF 14%, rgba(162, 193, 196, 0.5) 106%);
+  backdrop-filter: blur(2px);
+  padding-bottom: 60px;
+}
+
+.feature-group-title {
+  width: 100%;
+  padding-top: 60px;
+  padding-bottom: 16px;
+}
+
+.feature-group-title-content {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.group-title-main {
+  color: var(--orange-500);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 120%;
+}
+@media screen and (min-width: 768px) {
+  .group-title-main {
+    font-size: 14px;
+  }
+}
+@media screen and (min-width: 1024px) {
+  .group-title-main {
+    font-size: 16px;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .group-title-main {
+    font-size: 18px;
+  }
+}
+@media screen and (min-width: 1600px) {
+  .group-title-main {
+    font-size: 20px;
+  }
+}
+
+/* =================================================================
+   FEATURE NAMES & DESCRIPTIONS
+   ================================================================= */
+.feature-name {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.feature-name-text {
+  color: #012A38;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 140%;
+  transition: all 0.2s ease;
+}
+@media screen and (min-width: 768px) {
+  .feature-name-text {
+    font-size: 18px;
+  }
+}
+@media screen and (min-width: 1024px) {
+  .feature-name-text {
+    font-size: 20px;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .feature-name-text {
+    font-size: 22px;
+  }
+}
+@media screen and (min-width: 1600px) {
+  .feature-name-text {
+    font-size: 24px;
+  }
+}
+
+.feature-name-label {
+  --tw-bg-opacity: 1;
+  background-color: var(--opal-100);
+  border-radius: 0;
+  display: inline-block;
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 18px;
+  padding: 2px 6px;
+  text-transform: uppercase;
+}
+
+.feature-link {
+  display: inline-flex;
+  padding: 4px 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  border-radius: 24px;
+  color: var(--blue-900);
+  background: rgba(162, 193, 196, 0.5);
+}
+.feature-link:hover {
+  background: rgb(162, 193, 196);
+}
+
+.feature-description {
+  position: relative;
+  display: inline-block;
+  color: var(--gray-500);
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+.feature-description a {
+  color: var(--blue-900);
+  text-decoration: underline;
+}
+.feature-description:hover .feature-description-text {
+  opacity: 1;
+  visibility: visible;
+  z-index: 10;
+}
+
+.feature-description-text {
+  --tw-bg-opacity: 1;
+  background-color: #d3d9dc;
+  border-radius: 0.25rem;
+  display: block;
+  font-size: 12px;
+  left: auto;
+  line-height: 16px;
+  width: 300px;
+  max-width: 350px;
+  opacity: 0;
+  padding: 0.5rem 10px 0.75rem 10px;
+  position: absolute;
+  top: 1.5rem;
+  transition-duration: 0.15s;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  visibility: hidden;
+  z-index: -1;
+}
+
+/* Group Description */
+.group-title-description {
+  position: relative;
+  display: inline-block;
+}
+.group-title-description a {
+  color: var(--blue-900);
+  text-decoration: underline;
+}
+.group-title-description:hover .group-description-text {
+  opacity: 1;
+  visibility: visible;
+  z-index: 10;
+}
+
+.group-description-text {
+  --tw-bg-opacity: 1;
+  background-color: #d3d9dc;
+  border-radius: 0.25rem;
+  display: block;
+  font-size: 12px;
+  left: auto;
+  line-height: 16px;
+  width: 300px;
+  max-width: 350px;
+  opacity: 0;
+  padding: 0.5rem 10px 0.75rem 10px;
+  position: absolute;
+  top: 1.5rem;
+  transition-duration: 0.15s;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  visibility: hidden;
+  z-index: -1;
+}
+
+/* =================================================================
+   RC LIST COMPONENTS
+   ================================================================= */
+.rc-list-title {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  color: var(--blue-900);
+}
+
+/* =================================================================
+   TOOLTIP SYSTEM
+   ================================================================= */
+.rc-tooltip {
+  position: relative;
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  cursor: help !important;
+  border-color: currentColor;
+  text-underline-offset: 2px;
+  transition: 0.5s ease-in-out;
+}
+.rc-tooltip:hover .rc-tooltip-container, .rc-tooltip:focus .rc-tooltip-container {
+  visibility: visible;
+  z-index: 10;
+  opacity: 1;
+  transform: scale(1);
+}
+.rc-tooltip:hover .rc-tooltip-container--top, .rc-tooltip:focus .rc-tooltip-container--top {
+  bottom: 100%;
+}
+
+.rc-tooltip-container {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  display: block;
+  z-index: 1;
+  border-radius: 24px;
+  background: linear-gradient(228deg, #bff90b, #fff);
+  box-shadow: 0 2px 8px 0 rgba(99, 99, 99, 0.2);
+  padding: 20px 15px;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  text-underline-offset: 2px;
+  transform: scale(0.95);
+  font-size: 12px;
+  line-height: 1.35;
+  text-align: left;
+}
+.rc-tooltip-container--top {
+  bottom: 90%;
+}
+.rc-tooltip-container ul {
+  list-style: disc;
+  padding-left: 16px;
+  margin-top: 0;
+}
+.rc-tooltip-container ul li {
+  padding-left: 0;
+}
+.rc-tooltip-container ul li:before {
+  display: none;
+}
+
+/* =================================================================
+   VIDEO COMPONENTS
+   ================================================================= */
+/* Video Tooltip */
+.video-tooltip {
+  position: fixed;
+  display: none;
+  opacity: 0;
+  transform: scale(0.85) translateY(20px);
+  z-index: 99999;
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+}
+
+.video-tooltip-container {
+  background: var(--gray-800);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--gray-700);
+  backdrop-filter: blur(10px);
+  width: 22rem;
+  position: relative;
+  overflow: hidden;
+}
+@media screen and (min-width: 640px) {
+  .video-tooltip-container {
+    width: 18rem;
+  }
+}
+
+/* Video Controls */
+.video-close-button {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 20;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+.video-close-button:focus, .video-close-button:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.close-icon {
+  width: 1rem;
+  height: 1rem;
+  color: #ffffff;
+}
+
+/* Video Layout */
+.video-container {
+  position: relative;
+}
+
+.main-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-color: #000000;
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+}
+
+.video-info-section {
+  padding: 1rem;
+  border-bottom-left-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 1.04%, rgba(0, 0, 0, 0.5) 58.86%, #000 100%);
+  backdrop-filter: blur(1.5123041868px);
+  background-color: transparent;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.video-heading {
+  color: #ffffff;
+  margin-bottom: 1rem;
+  margin-top: 0;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+}
+
+/* =================================================================
+   CAROUSEL COMPONENTS
+   ================================================================= */
+.carousel-indicators-container {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  right: 0.75rem;
+  z-index: 10;
+}
+
+.carousel-indicators {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.carousel-indicator {
+  flex: 1;
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.25);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.carousel-indicator::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--white);
+  transform: scaleX(0);
+  transition: transform 0.2s ease;
+}
+.carousel-indicator.active::before {
+  transform: scaleX(1);
+}
+.carousel-indicator:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+.carousel-indicator:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* =================================================================
+   PROGRESS BAR
+   ================================================================= */
+.progress-container {
+  width: 100%;
+}
+
+.progress-track {
+  width: 100%;
+  height: 0.25rem;
+  background-color: var(--gray-600);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  background: var(--white);
+  border-radius: 2px;
+  border-radius: 9999px;
+  transition: all 0.1s ease;
+}
+
+.cp-hero--sm {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+.cp-hero--sm .cp-hero__container {
+  padding-top: 90px !important;
+}
+.cp-hero--sm .cp-hero__title,
+.cp-hero--sm .cp-hero__desc {
+  color: var(--blue-900) !important;
+}
+
+#sticky-header {
+  margin-bottom: -1px;
+}

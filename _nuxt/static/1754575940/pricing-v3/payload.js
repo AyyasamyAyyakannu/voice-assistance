@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/pricing-v3", {data:[{_img:{}}],fetch:{},mutations:void 0});

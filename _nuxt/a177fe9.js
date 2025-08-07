@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[236],{497:function(t,n,r){"use strict";r.r(n);var l={props:{src:{type:String,default:""},alt:{type:String,default:""}}},e=r(49),component=Object(e.a)(l,(function(){var t=this,n=t._self._c;return n("div",[n("img",{attrs:{src:t.src,alt:t.alt}})])}),[],!1,null,null,null);n.default=component.exports}}]);

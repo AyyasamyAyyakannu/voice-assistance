@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>YouTube-Style Playlist Page</title>
+  <style>
+    :root {
+      --gap: 16px;
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial;
+      color: #0f0f0f;
+      background: #fff;
+      line-height: 1.4;
+    }
+    .wrap {
+      max-width: 1280px;
+      margin: 20px auto;
+      padding: 0 16px;
+    }
+
+    /* --- Layout like YouTube: player + sidebar list --- */
+    .yt-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--gap);
+    }
+    @media (min-width: 960px) {
+      .yt-layout {
+        grid-template-columns: 2.2fr 1fr; /* big player + sidebar */
+        align-items: start;
+      }
+    }
+
+    /* Featured player area */
+    .player-card {
+      background: #000;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0,0,0,.08);
+    }
+    .player {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: 0;
+      display: block;
+    }
+    .video-meta {
+      padding: 10px 4px;
+    }
+    .title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin: 8px 0 2px;
+    }
+    .subtle {
+      color: #606060;
+      font-size: .95rem;
+    }
+
+    /* Sidebar list (like YouTube's “Up next” list) */
+    .sidebar {
+      display: grid;
+      gap: 10px;
+      position: relative;
+    }
+    .list-header {
+      font-weight: 600;
+      font-size: 1rem;
+      margin: 2px 0 6px;
+    }
+    .video-item {
+      display: grid;
+      grid-template-columns: 168px 1fr;
+      gap: 10px;
+      padding: 6px;
+      border-radius: 12px;
+      text-decoration: none;
+      color: inherit;
+      transition: background-color .12s ease;
+      cursor: pointer;
+    }
+    .video-item:hover { background: #f2f2f2; }
+    .thumb {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: 10px;
+      background: #ddd;
+    }
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .duration {
+      position: absolute;
+      right: 6px;
+      bottom: 6px;
+      background: rgba(0,0,0,.85);
+      color: #fff;
+      font-size: .78rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .meta {
+      display: grid;
+      gap: 4px;
+      align-content: start;
+    }
+    .meta .t {
+      font-size: .98rem;
+      font-weight: 500;
+      line-height: 1.25;
+    }
+    .meta .byline,
+    .meta .stats {
+      font-size: .9rem;
+      color: #606060;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Load more */
+    .actions {
+      display: grid;
+      place-items: center;
+      margin: 8px 0 14px;
+    }
+    button.load-more {
+      appearance: none;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid #ddd;
+      background: #fff;
+      cursor: pointer;
+      font: inherit;
+      transition: box-shadow .12s ease, transform .06s ease;
+    }
+    button.load-more:hover { box-shadow: 0 6px 16px rgba(0,0,0,.08); }
+    button.load-more:active { transform: translateY(1px); }
+    button.load-more[disabled] { opacity: .6; cursor: not-allowed; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="yt-layout">
+      <!-- Left: Featured player -->
+      <div>
+        <div class="player-card">
+          <iframe id="yt-player" class="player"
+            src="" title="YouTube video player"
+            allow="autoplay; encrypted-media; picture-in-picture; gyroscope"
+            allowfullscreen></iframe>
+        </div>
+        <div class="video-meta">
+          <div id="currentTitle" class="title">Loading…</div>
+          <div id="currentMeta" class="subtle"></div>
+        </div>
+      </div>
+
+      <!-- Right: Sidebar list -->
+      <aside class="sidebar">
+        <div class="list-header">Playlist videos</div>
+        <div id="list"></div>
+        <div class="actions">
+          <button id="loadMore" class="load-more" hidden>Load more</button>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script>
+    // ===== YOU PROVIDED THESE (✅ updated) =====
+    const API_KEY = "AIzaSyD0tm2RIa_-sw-GQH4DQjrCSaSnDfpy3Y4";
+    const PLAYLIST_ID = "PL7bncXIEyEmGNmN120h3N_lNV_gGFlfoN";
+
+    // ===== CONFIG =====
+    const PAGE_SIZE = 20; // YouTube sidebar shows many; feel free to tweak
+    const ORDER = "date"; // newest first
+
+    // ===== STATE =====
+    let nextPageToken = null;
+    let firstVideoSet = false;
+
+    // ===== DOM =====
+    const listEl = document.getElementById("list");
+    const loadBtn = document.getElementById("loadMore");
+    const playerEl = document.getElementById("yt-player");
+    const currentTitleEl = document.getElementById("currentTitle");
+    const currentMetaEl = document.getElementById("currentMeta");
+
+    // ===== HELPERS =====
+    const fmtDate = (iso) => {
+      const d = new Date(iso);
+      return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+    };
+
+    // YouTube playlistItems API
+    async function fetchPlaylistPage(pageToken = "") {
+      const url = new URL("https://www.googleapis.com/youtube/v3/playlistItems");
+      url.search = new URLSearchParams({
+        key: API_KEY,
+        part: "snippet,contentDetails",
+        maxResults: PAGE_SIZE,
+        playlistId: PLAYLIST_ID,
+        pageToken
+      }).toString();
+
+      const res = await fetch(url);
+      if (!res.ok) {
+        throw new Error("YouTube API error: " + res.status + " " + (await res.text()));
+      }
+      return res.json();
+    }
+
+    function setPlayer(videoId, title, channelTitle, publishedAt) {
+      // modestbranding/rel=0 keeps it closer to YT’s feel but cleaner
+      playerEl.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+      currentTitleEl.textContent = title || "Untitled video";
+      currentMetaEl.textContent = [channelTitle, fmtDate(publishedAt)].filter(Boolean).join(" • ");
+    }
+
+    function sidebarItem({ videoId, title, channelTitle, publishedAt, thumbUrl, duration }) {
+      const a = document.createElement("a");
+      a.className = "video-item";
+      a.href = `https://www.youtube.com/watch?v=${videoId}`;
+      a.setAttribute("role", "button");
+      a.setAttribute("aria-label", `Play ${title}`);
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        setPlayer(videoId, title, channelTitle, publishedAt);
+        // Scroll to top on mobile so the player is visible
+        if (window.innerWidth < 960) window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      a.innerHTML = `
+        <div class="thumb">
+          <img loading="lazy" src="${thumbUrl}" alt="${title}">
+          <span class="duration">${duration || ""}</span>
+        </div>
+        <div class="meta">
+          <div class="t">${title}</div>
+          <div class="byline">${channelTitle || ""}</div>
+          <div class="stats">${fmtDate(publishedAt)}</div>
+        </div>
+      `;
+      return a;
+    }
+
+    // Fake duration badge (playlistItems doesn't include duration; that’s Videos API).
+    // We’ll leave it blank to keep things light; or you could uncomment the extra fetch.
+    async function getDurations(videoIds) {
+      // OPTIONAL: Uncomment to fetch real durations (costs extra quota)
+      // const url = new URL("https://www.googleapis.com/youtube/v3/videos");
+      // url.search = new URLSearchParams({
+      //   key: API_KEY, part: "contentDetails", id: videoIds.join(",")
+      // }).toString();
+      // const res = await fetch(url);
+      // const data = await res.json();
+      // const map = {};
+      // (data.items || []).forEach(v => map[v.id] = parseISODuration(v.contentDetails.duration));
+      // return map;
+      return {}; // no-op by default
+    }
+
+    // Parse ISO 8601 durations like PT12M23S -> 12:23
+    function parseISODuration(iso) {
+      if (!iso) return "";
+      const m = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+      if (!m) return "";
+      const h = parseInt(m[1] || "0", 10);
+      const min = parseInt(m[2] || "0", 10);
+      const s = parseInt(m[3] || "0", 10);
+      const parts = [];
+      if (h) parts.push(String(h));
+      parts.push((h ? String(min).padStart(2, "0") : String(min)));
+      parts.push(String(s).padStart(2, "0"));
+      return parts.join(":");
+    }
+
+    function pickThumb(snippet) {
+      return snippet.thumbnails?.maxres?.url
+          || snippet.thumbnails?.standard?.url
+          || snippet.thumbnails?.high?.url
+          || snippet.thumbnails?.medium?.url
+          || snippet.thumbnails?.default?.url
+          || "";
+    }
+
+    function setLoadMoreVisibility() {
+      loadBtn.hidden = !nextPageToken;
+      loadBtn.disabled = !nextPageToken;
+      loadBtn.textContent = nextPageToken ? "Load more" : "All videos loaded";
+    }
+
+    async function loadPage(token = "") {
+      loadBtn.disabled = true;
+      loadBtn.textContent = "Loading…";
+
+      const data = await fetchPlaylistPage(token);
+      const items = data.items || [];
+      nextPageToken = data.nextPageToken || null;
+
+      // First video goes into the big player
+      if (!firstVideoSet && items.length) {
+        const s = items[0].snippet;
+        const vid = items[0].contentDetails?.videoId;
+        if (vid) {
+          setPlayer(vid, s.title, s.channelTitle, s.publishedAt);
+          firstVideoSet = true;
+        }
+      }
+
+      // Sidebar population
+      const ids = items.map(i => i.contentDetails?.videoId).filter(Boolean);
+      const durations = await getDurations(ids);
+
+      items.forEach((item, idx) => {
+        const videoId = item.contentDetails?.videoId;
+        if (!videoId) return;
+        // If this is the first batch and first item, it's already the featured player—still show it in list like YT does.
+        const s = item.snippet;
+        const node = sidebarItem({
+          videoId,
+          title: s.title,
+          channelTitle: s.channelTitle,
+          publishedAt: s.publishedAt,
+          thumbUrl: pickThumb(s),
+          duration: durations[videoId]
+        });
+        listEl.appendChild(node);
+      });
+
+      setLoadMoreVisibility();
+    }
+
+    // Init
+    (async function init() {
+      try {
+        await loadPage("");
+        loadBtn.addEventListener("click", () => nextPageToken && loadPage(nextPageToken));
+      } catch (err) {
+        console.error(err);
+        currentTitleEl.textContent = "Failed to load playlist.";
+        currentMetaEl.textContent = "Check API key restrictions (HTTP referrers) and YouTube Data API enablement.";
+      }
+    })();
+  </script>
+</body>
+</html>
